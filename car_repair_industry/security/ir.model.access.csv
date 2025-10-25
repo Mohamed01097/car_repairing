@@ -40,3 +40,4 @@ access_car_lift,car_lift,model_car_lift,base.group_user,1,1,1,1
 access_fleet_repair_image_line,fleet_repair_image_line,model_fleet_repair_image_line,base.group_user,1,1,1,1
 access_technician,technician,model_technician,car_repair_industry.group_technician_admin,1,1,1,1
 access_checklist_points,checklist_points,model_checklist_points,base.group_user,1,1,1,1
+access_workorder_timer_line,workorder_timer_line,model_workorder_timer_line,base.group_user,1,1,1,1

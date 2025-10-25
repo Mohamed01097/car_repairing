@@ -6,178 +6,233 @@ from datetime import date, time, datetime, timedelta
 
 
 class FleetWorkOrder(models.Model):
-	_name = 'fleet.workorder'
-	_inherit = ['mail.thread']
-	_description = "Fleet WorkOrder"
+    _name = 'fleet.workorder'
+    _inherit = ['mail.thread']
+    _description = "Fleet WorkOrder"
+
+    name = fields.Char(string='Work Order', required=True)
+    sequence = fields.Char(string='Sequence', readonly=True, copy=False)
+    date = fields.Date(string='Date')
+    client_id = fields.Many2one('res.partner', string='Client', required=True)
+    client_phone = fields.Char(string='Phone.')
+    client_mobile = fields.Char(string='Mobile')
+    client_email = fields.Char(string='Email')
+    date_planned = fields.Datetime(string='Scheduled Date')
+    date_planned_end = fields.Datetime(string='Planned End Date')
+    cycle = fields.Float(string='Number of Cycles')
+    hour = fields.Float(string='Number of Hours')
+    date_start = fields.Datetime(string='Start Date', readonly=True)
+    pause_time = fields.Datetime(string='Pause Date', readonly=True)
+    date_finished = fields.Datetime(string='End Date', readonly=True)
+    total_paused_hours = fields.Float(string='Total Paused Hours', readonly=True)
+    delay = fields.Float(string='Working Hours', readonly=True)
+    hours_worked = fields.Float(string='Hours Worked')
+    state = fields.Selection(
+        [('draft', 'Draft'), ('cancel', 'Cancelled'), ('pause', 'Pending'), ('startworking', 'In Progress'),
+         ('done', 'Finished'), ('deleted', 'Deleted')], 'Status', readonly=True, copy=False,
+        help="* When a work order is created it is set in 'Draft' status.\n" \
+             "* When user sets work order in start mode that time it will be set in 'In Progress' status.\n" \
+             "* When work order is in running mode, during that time if user wants to stop or to make changes in order then can set in 'Pending' status.\n" \
+             "* When the user cancels the work order it will be set in 'Canceled' status.\n" \
+             "* When order is completely processed that time it is set in 'Finished' status.")
+    timer_line_ids = fields.One2many('workorder.timer.line', 'workorder_id', string='Timer Lines')
+    phone = fields.Char(string='Phone')
+    fleet_id = fields.Many2one('fleet.vehicle', 'Fleet')
+    license_plate = fields.Char('License Plate',
+                                help='License plate number of the vehicle (ie: plate number for a car)')
+    vin_sn = fields.Char('Chassis Number', help='Unique number written on the vehicle motor (VIN/SN number)')
+    model_id = fields.Many2one('fleet.vehicle.model', 'Model', help='Model of the vehicle')
+    fuel_type = fields.Selection([('diesel', 'Diesel'),
+                                  ('gasoline', 'Gasoline'),
+                                  ('full_hybrid', 'Full Hybrid'),
+                                  ('plug_in_hybrid_diesel', 'Plug-in Hybrid Diesel'),
+                                  ('plug_in_hybrid_gasoline', 'Plug-in Hybrid Gasoline'),
+                                  ('cng', 'CNG'),
+                                  ('lpg', 'LPG'),
+                                  ('hydrogen', 'Hydrogen'),
+                                  ('electric', 'Electric'), ('hybrid', 'Hybrid')], 'Fuel Type',
+                                 help='Fuel Used by the vehicle')
+
+    service_type = fields.Many2one('service.type', string='Nature of Service')
+    user_id = fields.Many2one('res.users', string='Technician')
+    priority = fields.Selection([('0', 'Low'), ('1', 'Normal'), ('2', 'High')], 'Priority')
+    description = fields.Text(string='Fault Description')
+    spare_part_ids = fields.One2many('spare.part.line', 'diagnose_id', string='Spare Parts Needed')
+    est_ser_hour = fields.Float(string='Estimated Sevice Hours')
+    service_product_id = fields.Many2one('product.product', string='Service Product')
+    service_product_price = fields.Integer('Service Product Price')
+    fleet_repair_id = fields.Many2one('fleet.repair', string='Car Repair', copy=False, readonly=True)
+    diagnose_id = fields.Many2one('fleet.diagnose', string='Car Diagnosis', copy=False, readonly=True)
+    sale_order_id = fields.Many2one('sale.order', string='Sales Order', copy=False, readonly=True)
+    spare_part_ids = fields.One2many('spare.part.line', 'workorder_id', string='Spare Parts')
+    fleet_repair_line = fields.One2many('fleet.repair.line', 'workorder_id', string="fleet Lines")
+    count_fleet_repair = fields.Integer(string="Invoice", compute='_compute_fleet_repair_id')
+    count_dig = fields.Integer(string="Count diagnose", compute='_compute_dig_id')
+    confirm_sale_order = fields.Boolean('is confirm')
+    saleorder_count = fields.Integer(string="Sale Order", compute='_compute_saleorder_id')
+    timesheet_ids = fields.One2many('account.analytic.line', 'workorder_id', string="Timesheet")
+    car_lift = fields.Many2one('car.lift', string="Car Lift")
+    parking_slot = fields.Many2one('parking.slot', string="Parking Slot")
+    responsible_person = fields.Many2one('res.partner', string="Responsible Technician")
+
+    _order = 'id desc'
+
+    @api.depends('fleet_repair_id')
+    def _compute_fleet_repair_id(self):
+        for order in self:
+            repair_order_ids = self.env['fleet.repair'].search([('workorder_id', '=', order.id)])
+            order.count_fleet_repair = len(repair_order_ids)
+
+    @api.depends('diagnose_id')
+    def _compute_dig_id(self):
+        for order in self:
+            work_order_ids = self.env['fleet.diagnose'].search([('fleet_repair_id.workorder_id', '=', order.id)])
+            order.count_dig = len(work_order_ids)
+
+    @api.depends('confirm_sale_order')
+    def _compute_saleorder_id(self):
+        for order in self:
+            so_order_ids = self.env['sale.order'].search([('state', '=', 'sale'), ('workorder_id', '=', order.id)])
+            order.saleorder_count = len(so_order_ids)
+
+    def button_view_repair(self):
+        list = []
+        context = dict(self._context or {})
+        repair_order_ids = self.env['fleet.repair'].search([('workorder_id', '=', self.id)])
+        for order in repair_order_ids:
+            list.append(order.id)
+        return {
+            'name': _('Car Repair'),
+            'view_type': 'form',
+            'view_mode': 'list,form',
+            'res_model': 'fleet.repair',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', list)],
+            'context': context,
+        }
+
+    def button_view_diagnosis(self):
+        list = []
+        context = dict(self._context or {})
+        dig_order_ids = self.env['fleet.diagnose'].search([('fleet_repair_id.workorder_id', '=', self.id)])
+        for order in dig_order_ids:
+            list.append(order.id)
+        return {
+            'name': _('Car Diagnosis'),
+            'view_type': 'form',
+            'view_mode': 'list,form',
+            'res_model': 'fleet.diagnose',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', list)],
+            'context': context,
+        }
+
+    def button_view_saleorder(self):
+        list = []
+        context = dict(self._context or {})
+        order_ids = self.env['sale.order'].search([('state', '=', 'sale'), ('workorder_id', '=', self.id)])
+        for order in order_ids:
+            list.append(order.id)
+        return {
+            'name': _('Sale'),
+            'view_type': 'form',
+            'view_mode': 'list,form',
+            'res_model': 'sale.order',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', list)],
+            'context': context,
+        }
+
+    def button_cancel(self):
+        self.write({'state': 'cancel'})
+
+    def _create_timer_log(self, action, duration=0.0):
+        """Helper to add a log line"""
+        self.env['workorder.timer.line'].create({
+            'workorder_id': self.id,
+            'action': action,
+            'action_time': datetime.now(),
+            'duration': duration,
+        })
+    def button_resume(self):
+        if self.state != 'pause':
+            return
+        now = datetime.now()
+        paused_hours = 0.0
+        if self.pause_time:
+            paused_hours = (now - self.pause_time).total_seconds() / 3600
+        self.write({
+            'total_paused_hours': self.total_paused_hours + paused_hours,
+            'pause_time': False,
+            'state': 'startworking',
+        })
+        self._create_timer_log('resume', duration=paused_hours)
+        self.write({'state': 'startworking'})
 
 
-	name = fields.Char(string='Work Order', required=True)
-	sequence = fields.Char(string='Sequence', readonly=True, copy =False)
-	date = fields.Date(string='Date')
-	client_id = fields.Many2one('res.partner', string='Client', required=True)
-	client_phone = fields.Char(string='Phone.')
-	client_mobile = fields.Char(string='Mobile')
-	client_email = fields.Char(string='Email')
-	date_planned = fields.Datetime(string='Scheduled Date')
-	date_planned_end =  fields.Datetime(string='Planned End Date')
-	cycle = fields.Float(string='Number of Cycles')
-	hour = fields.Float(string='Number of Hours')
-	date_start = fields.Datetime(string='Start Date', readonly=True)
-	date_finished = fields.Datetime(string='End Date', readonly=True)
-	delay = fields.Float(string='Working Hours', readonly=True)
-	hours_worked = fields.Float(string='Hours Worked')
-	state = fields.Selection([('draft','Draft'),('cancel','Cancelled'),('pause','Pending'),('startworking', 'In Progress'),('done','Finished'),('deleted','Deleted')],'Status', readonly=True, copy=False,help="* When a work order is created it is set in 'Draft' status.\n" \
-									   "* When user sets work order in start mode that time it will be set in 'In Progress' status.\n" \
-									   "* When work order is in running mode, during that time if user wants to stop or to make changes in order then can set in 'Pending' status.\n" \
-									   "* When the user cancels the work order it will be set in 'Canceled' status.\n" \
-									   "* When order is completely processed that time it is set in 'Finished' status.")
+    def button_pause(self):
+        if self.state != 'startworking':
+            return
+        self.write({
+            'pause_time': datetime.now(),
+            'state': 'pause',
+        })
+        self._create_timer_log('pause')
 
-	phone = fields.Char(string='Phone')
-	fleet_id = fields.Many2one('fleet.vehicle','Fleet')
-	license_plate = fields.Char('License Plate', help='License plate number of the vehicle (ie: plate number for a car)')
-	vin_sn = fields.Char('Chassis Number', help='Unique number written on the vehicle motor (VIN/SN number)')
-	model_id = fields.Many2one('fleet.vehicle.model', 'Model', help='Model of the vehicle')
-	fuel_type = fields.Selection([('diesel', 'Diesel'),
-								  ('gasoline', 'Gasoline'),
-								  ('full_hybrid', 'Full Hybrid'),
-								  ('plug_in_hybrid_diesel', 'Plug-in Hybrid Diesel'),
-								  ('plug_in_hybrid_gasoline', 'Plug-in Hybrid Gasoline'),
-								  ('cng', 'CNG'),
-								  ('lpg', 'LPG'),
-								  ('hydrogen', 'Hydrogen'),
-								  ('electric', 'Electric'), ('hybrid', 'Hybrid')], 'Fuel Type',help='Fuel Used by the vehicle')
+    def button_draft(self):
+        self.write({'state': 'draft'})
 
-	service_type = fields.Many2one('service.type', string='Nature of Service')
-	user_id = fields.Many2one('res.users', string='Technician')
-	priority = fields.Selection([('0','Low'), ('1','Normal'), ('2','High')], 'Priority')
-	description = fields.Text(string='Fault Description')
-	spare_part_ids = fields.One2many('spare.part.line', 'diagnose_id', string='Spare Parts Needed')
-	est_ser_hour = fields.Float(string='Estimated Sevice Hours')
-	service_product_id = fields.Many2one('product.product', string='Service Product')
-	service_product_price = fields.Integer('Service Product Price')
-	fleet_repair_id = fields.Many2one('fleet.repair', string='Car Repair', copy=False, readonly=True)
-	diagnose_id = fields.Many2one('fleet.diagnose', string='Car Diagnosis', copy=False, readonly=True)
-	sale_order_id = fields.Many2one('sale.order', string='Sales Order', copy=False, readonly=True)
-	spare_part_ids = fields.One2many('spare.part.line', 'workorder_id', string='Spare Parts')
-	fleet_repair_line = fields.One2many('fleet.repair.line', 'workorder_id', string="fleet Lines")
-	count_fleet_repair = fields.Integer(string = "Invoice", compute='_compute_fleet_repair_id')
-	count_dig = fields.Integer(string = "Count diagnose", compute='_compute_dig_id')
-	confirm_sale_order = fields.Boolean('is confirm')
-	saleorder_count = fields.Integer(string = "Sale Order", compute='_compute_saleorder_id')
-	timesheet_ids = fields.One2many('account.analytic.line', 'workorder_id', string="Timesheet")
-	car_lift = fields.Many2one('car.lift', string="Car Lift")
-	parking_slot = fields.Many2one('parking.slot', string="Parking Slot")
-	responsible_person = fields.Many2one('res.partner', string="Responsible Technician")
+    def action_start_working(self):
+        """ Sets state to start working and writes starting date.
+        @return: True
+        """
+        now = datetime.now()
+        self.write({
+            'date_start': now,
+            'state': 'startworking',
+        })
+        self._create_timer_log('start')
+        if self.fleet_repair_id:
+            self.fleet_repair_id.sudo().write({'state': 'workorder'})
 
-	_order = 'id desc'
+        return True
 
-	@api.depends('fleet_repair_id')
-	def _compute_fleet_repair_id(self):
-		for order in self:
-			repair_order_ids = self.env['fleet.repair'].search([('workorder_id', '=', order.id)])
-			order.count_fleet_repair = len(repair_order_ids)
+    def action_done(self):
+        """ Sets state to done, writes finish date and calculates delay.
+        @return: True
+        """
+        if not self.date_start:
+            return
+        now = datetime.now()
+        total_hours = (now - self.date_start).total_seconds() / 3600
+        effective_hours = total_hours - self.total_paused_hours
+        if effective_hours < 0:
+            effective_hours = 0
+        delay = 0.0
+        delay = (now - self.date_start).total_seconds() / 3600
+        if delay < 0:
+            delay = 0
+        self.write({'state': 'done', 'date_finished': now, 'delay': delay,'hours_worked':effective_hours})
+        if self.sale_order_id:
+            self.sale_order_id.sudo().write({'state': 'sale'})
+        if self.fleet_repair_id:
+            self.fleet_repair_id.sudo().write({'state': 'work_completed'})
+        return True
 
-	@api.depends('diagnose_id')
-	def _compute_dig_id(self):
-		for order in self:
-			work_order_ids = self.env['fleet.diagnose'].search([('fleet_repair_id.workorder_id', '=', order.id)])
-			order.count_dig = len(work_order_ids)
+class WorkorderTimerLine(models.Model):
+    _name = 'workorder.timer.line'
+    _description = "Work Order Timer Log"
+    _order = 'action_time asc'
 
-	@api.depends('confirm_sale_order')
-	def _compute_saleorder_id(self):
-		for order in self:
-			so_order_ids = self.env['sale.order'].search([('state', '=', 'sale'),('workorder_id', '=', order.id)])            
-			order.saleorder_count = len(so_order_ids)          
-			
-	def button_view_repair(self):
-		list = []
-		context = dict(self._context or {})
-		repair_order_ids = self.env['fleet.repair'].search([('workorder_id', '=', self.id)])         
-		for order in repair_order_ids:
-			list.append(order.id)
-		return {
-			'name': _('Car Repair'),
-			'view_type': 'form',
-			'view_mode': 'list,form',
-			'res_model': 'fleet.repair',
-			'view_id': False,
-			'type': 'ir.actions.act_window',
-			'domain': [('id', 'in',list )],
-			'context': context,
-		}
-
-	def button_view_diagnosis(self):
-		list = []
-		context = dict(self._context or {})
-		dig_order_ids = self.env['fleet.diagnose'].search([('fleet_repair_id.workorder_id', '=', self.id)])           
-		for order in dig_order_ids:
-			list.append(order.id)
-		return {
-			'name': _('Car Diagnosis'),
-			'view_type': 'form',
-			'view_mode': 'list,form',
-			'res_model': 'fleet.diagnose',
-			'view_id': False,
-			'type': 'ir.actions.act_window',
-			'domain': [('id', 'in',list )],
-			'context': context,
-		}
-
-	def button_view_saleorder(self):
-		list = []
-		context = dict(self._context or {})
-		order_ids = self.env['sale.order'].search([('state', '=', 'sale'),('workorder_id', '=', self.id)])           
-		for order in order_ids:
-			list.append(order.id)
-		return {
-			'name': _('Sale'),
-			'view_type': 'form',
-			'view_mode': 'list,form',
-			'res_model': 'sale.order',
-			'view_id': False,
-			'type': 'ir.actions.act_window',
-			'domain': [('id', 'in',list )],
-			'context': context,
-		}    
-
-	def button_cancel(self):
-		self.write({'state': 'cancel'})
-
-	def button_resume(self):
-		self.write({'state': 'startworking'})
-
-	def button_pause(self):
-		self.write({'state': 'pause'})
-
-	def button_draft(self):
-		self.write({'state': 'draft'})
-
-	def action_start_working(self):
-		""" Sets state to start working and writes starting date.
-		@return: True
-		"""
-		date_now = datetime.now()
-		self.write({'state':'startworking', 'date_start': date_now})
-		if self.fleet_repair_id:
-			self.fleet_repair_id.sudo().write({'state': 'workorder'})
-		return True
-
-	
-	def action_done(self):
-		""" Sets state to done, writes finish date and calculates delay.
-		@return: True
-		"""
-		delay = 0.0
-		date_now = datetime.now()
-		print(self.date_start)
-		print(date_now)
-		delay = (date_now - self.date_start).total_seconds() / 3600
-		print(delay)
-		if delay < 0:
-			delay = 0
-		self.write({'state':'done', 'date_finished': date_now, 'delay':delay})
-		if self.sale_order_id:
-			self.sale_order_id.sudo().write({'state': 'sale'})
-		if self.fleet_repair_id:
-			self.fleet_repair_id.sudo().write({'state': 'work_completed'})
-		return True
+    workorder_id = fields.Many2one('fleet.workorder', string="Work Order", ondelete='cascade')
+    action = fields.Selection([
+        ('start', 'Start'),
+        ('pause', 'Pause'),
+        ('resume', 'Resume'),
+        ('finish', 'Finish'),
+    ], string="Action", required=True)
+    action_time = fields.Datetime(string="Time", required=True)
+    duration = fields.Float(string="Duration (Hours)")

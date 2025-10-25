@@ -87,15 +87,15 @@
                         </group>
                         <notebook>
                             <page string="Information">
-<!--                                <group>-->
-<!--                                    <group string="Planned Date">-->
-<!--                                        <field name="date_planned"/>-->
-<!--                                        <field name="date_planned_end"/>-->
-<!--                                    </group>-->
-<!--                                    <group string="Duration">-->
-<!--                                        <field name="hour" widget="float_time"/>-->
-<!--                                    </group>-->
-<!--                                </group>-->
+                                <!--                                <group>-->
+                                <!--                                    <group string="Planned Date">-->
+                                <!--                                        <field name="date_planned"/>-->
+                                <!--                                        <field name="date_planned_end"/>-->
+                                <!--                                    </group>-->
+                                <!--                                    <group string="Duration">-->
+                                <!--                                        <field name="hour" widget="float_time"/>-->
+                                <!--                                    </group>-->
+                                <!--                                </group>-->
                                 <group string="Actual Repairing Date">
                                     <group>
                                         <field name="date_start"/>
@@ -103,11 +103,20 @@
                                     </group>
                                     <group>
                                         <field name="delay" widget="float_time" string="Total Duration"/>
-                                        <field name="hours_worked" string="Actual Duration"/>
+                                        <field name="hours_worked" widget="float_time" string="Actual Duration"/>
                                     </group>
                                 </group>
                                 <separator string="fleet Info"/>
                                 <field name="fleet_repair_line" readonly="True"/>
+                            </page>
+                            <page string="Timer">
+                                <field name="timer_line_ids" nolabel="1" readonly="1">
+                                    <list>
+                                        <field name="action"/>
+                                        <field name="action_time"/>
+                                        <field name="duration"/>
+                                    </list>
+                                </field>
                             </page>
                             <!--                            <page string="Timesheet">-->
                             <!--					            <field name="timesheet_ids" widget="one2many_list" >-->
