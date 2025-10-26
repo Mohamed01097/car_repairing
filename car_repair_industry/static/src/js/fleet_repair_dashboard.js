@@ -93,9 +93,9 @@ export class FleetRepairDasboard extends Component{
         var domain = targetElement.dataset.domain;
         this.action.doAction({
             name: 'Work Orders',
-            res_model: 'fleet.repair',
+            res_model: 'fleet.workorder',
             res_id: false,
-            domain:domain,
+//            domain:domain,
             views: [[false, 'list'],[false, 'form']],
             type: 'ir.actions.act_window',
         }, {

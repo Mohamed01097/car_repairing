@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_pause_reason_wizard_form" model="ir.ui.view">
+        <field name="name">pause.reason.wizard.form</field>
+        <field name="model">pause.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Pause Reason">
+                <group>
+                    <field name="workorder_id" invisible="1"/>
+                    <field name="reason" placeholder="Enter reason for pausing..."/>
+                </group>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button string="Confirm" type="object" name="action_confirm" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

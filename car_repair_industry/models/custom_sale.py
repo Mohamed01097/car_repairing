@@ -39,24 +39,42 @@ class SaleOrder(models.Model):
         order = self
         order.state = 'sale'
         fleet_line_obj = self.env['fleet.repair.line']
+        order_checklist_ids = []
+        for line in order.order_line:
+            vals = {
+                'name': line.product_id.name,
+                'done': True,
+            }
+            order_checklist_ids.append((0, 0, vals))
+        for line in order.fleet_repair_id.repair_checklist_ids:
+            vals = {
+                'name': line.name,
+                'description': line.description,
+                'done': line.done,
+            }
+            order_checklist_ids.append((0, 0, vals))
 
         wo_vals = {
             'name': order.name,
             'date': order.date_order.date() if order.date_order else False,
             'client_id': order.partner_id.id,
+            'responsible_person': order.fleet_repair_id.responsible_person.id,
+            'parking_slot': order.fleet_repair_id.parking_slot.id,
+            'car_lift': order.fleet_repair_id.car_lift.id,
             'sale_order_id': order.id,
             'fleet_repair_id': order.fleet_repair_id.id,
             'state': 'draft',
             'user_id': order.user_id.id,
             'confirm_sale_order': True,
+            'order_checklist_ids': order_checklist_ids,
         }
         wo_id = self.env['fleet.workorder'].create(wo_vals)
-        # for line in order.fleet_repair_line:
-        #     fleet_line_vals = {
-        #         'workorder_id': wo_id,
-        #     }
-        #     line.write({'workorder_id': wo_id.id})
-            # fleet_line_obj.write({'fleet_repair_line': line.id})
+        for line in order.fleet_repair_id.fleet_repair_line:
+            fleet_line_vals = {
+                'workorder_id': wo_id,
+            }
+            line.write({'workorder_id': wo_id.id})
+            fleet_line_obj.write({'fleet_repair_line': line.id})
 
         if order.fleet_repair_id:
             repair_id = order.fleet_repair_id.id

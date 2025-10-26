@@ -158,6 +158,7 @@ automotive workshop management software
         'data/mail_template_data.xml',
         'wizard/fleet_repair_assign_to_head_tech_view.xml',
         'wizard/fleet_diagnose_assign_to_technician_view.xml',
+        'wizard/pause_wizard.xml',
         'views/fleet_repair_view.xml',
         'views/fleet_repair_service_checklist_view.xml',
         'views/fleet_repair_sequence.xml',

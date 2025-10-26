@@ -39,13 +39,13 @@
                             </button>
 
 
-                            <button type="object"
-                                    name="button_view_diagnosis"
-                                    class="oe_stat_button"
-                                    icon="fa-pencil-square"
-                                    invisible="count_dig == 0" groups="base.group_user">
-                                <field name="count_dig" widget="statinfo" string="Diagnoses"/>
-                            </button>
+                            <!--                            <button type="object"-->
+                            <!--                                    name="button_view_diagnosis"-->
+                            <!--                                    class="oe_stat_button"-->
+                            <!--                                    icon="fa-pencil-square"-->
+                            <!--                                    invisible="count_dig == 0" groups="base.group_user">-->
+                            <!--                                <field name="count_dig" widget="statinfo" string="Diagnoses"/>-->
+                            <!--                            </button>-->
 
                             <button type="object"
                                     name="button_view_saleorder"
@@ -78,6 +78,7 @@
                         <group string="Task Assignment">
                             <group>
                                 <field name="responsible_person"/>
+                                <field name="checklist_ids" widget="many2many_tags"/>
                             </group>
                             <group>
                                 <field name="parking_slot"/>
@@ -103,20 +104,122 @@
                                     </group>
                                     <group>
                                         <field name="delay" widget="float_time" string="Total Duration"/>
-                                        <field name="hours_worked" widget="float_time" string="Actual Duration"/>
+                                        <field name="hours_worked" widget="float_time" string="Actual Duration"
+                                               readonly="1"/>
                                     </group>
                                 </group>
                                 <separator string="fleet Info"/>
-                                <field name="fleet_repair_line" readonly="True"/>
+                                <field name="fleet_repair_line">
+                                    <list>
+                                        <field name="fleet_id"/>
+                                        <field name="license_plate"/>
+                                        <field name="model_id"/>
+                                        <field name="vin_sn"/>
+                                        <field name="car_year"/>
+                                        <field name="fuel_type"/>
+                                    </list>
+                                </field>
                             </page>
-                            <page string="Timer">
+                            <page string="Time Tracking">
                                 <field name="timer_line_ids" nolabel="1" readonly="1">
                                     <list>
                                         <field name="action"/>
+                                        <field name="reason"/>
                                         <field name="action_time"/>
-                                        <field name="duration"/>
+                                        <!--                                        <field name="duration" widget="float_time"/>-->
                                     </list>
                                 </field>
+                            </page>
+                            <page name="images_before" string="Before Installation Images">
+                                <field name="repair_image_line_ids">
+                                    <list>
+                                        <field name="b_image1" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="b_image2" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="b_image3" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="b_image4" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="b_image5" widget="image" class="oe_avatar oe_small"/>
+                                    </list>
+                                    <form>
+                                        <notebook>
+                                            <page string="Image1 Before">
+                                                <field name="b_image1" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image2 Before">
+                                                <field name="b_image2" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image3 Before">
+                                                <field name="b_image3" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image4 Before">
+                                                <field name="b_image4" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image5 Before">
+                                                <field name="b_image5" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="images_after" string="After Installation Images">
+                                <field name="repair_image_line_ids">
+                                    <list>
+                                        <field name="a_image1" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="a_image2" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="a_image3" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="a_image4" widget="image" class="oe_avatar oe_small"/>
+                                        <field name="a_image5" widget="image" class="oe_avatar oe_small"/>
+                                    </list>
+                                    <form>
+                                        <notebook>
+                                            <page string="Image1 After">
+                                                <field name="a_image1" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image2 After">
+                                                <field name="a_image2" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image3 After">
+                                                <field name="a_image3" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image4 After">
+                                                <field name="a_image4" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                            <page string="Image5 After">
+                                                <field name="a_image5" widget="capture_image"
+                                                       class="oe_avatar oe_small"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="work_permit" string="Work Permit">
+                            </page>
+                            <page name="checklist" string="Checklist">
+                                <group>
+                                    <field name="order_checklist_ids" options="{'no_create': True}" nolabel="1"
+                                           colspan="2">
+                                        <list editable="bottom">
+                                            <field name="name"/>
+                                            <field name="description"/>
+                                            <field name="done"/>
+                                        </list>
+                                    </field>
+                                </group>
+                                <button name="select_all" string="Select All" type="object" class="oe_highlight"/>
+                            </page>
+
+                            <page name="comments" string="Comments">
+                                <group>
+                                    <field name="notes"/>
+                                </group>
                             </page>
                             <!--                            <page string="Timesheet">-->
                             <!--					            <field name="timesheet_ids" widget="one2many_list" >-->

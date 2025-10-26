@@ -76,7 +76,7 @@ class FleetRepair(models.Model):
     child_ids = fields.One2many('fleet.repair', 'parent_id', string="Sub-Repair")
     before_image_ids = fields.One2many('maintenance.image', 'maintenance_id', string="Before Images")
     after_image_ids = fields.One2many('maintenance.image', 'maintenance_id', string="After Images")
-    repair_checklist_ids = fields.One2many('fleet.repair.checklist', 'checklist_id',string='Repair Checklist')
+    repair_checklist_ids = fields.One2many('fleet.repair.checklist', 'repair_id',string='Repair Checklist')
     feedback_description = fields.Char(string="Feedback")
     rating = fields.Selection([('0','Low'), ('1','Normal'), ('2','High')], string="Rating")
     timesheet_ids = fields.One2many('account.analytic.line', 'repair_id', string="Timesheet")
@@ -88,11 +88,6 @@ class FleetRepair(models.Model):
     responsible_person = fields.Many2one('res.partner', string='Responsible Technician',domain="[('partner_type','=','technician')]")
     checklist_ids = fields.Many2many('fleet.repair.checklist', string='Checklist')
     notes = fields.Text()
-    repair_image_line_ids = fields.One2many(
-        'fleet.repair.image.line',
-        'repair_id',
-        string='Repair Images'
-    )
     # start
 
     @api.constrains('fleet_repair_line')
@@ -528,12 +523,6 @@ class PriceList(models.Model):
     _description = "Service Type"
 
     name = fields.Char(string='Name')
-class ChecklistPoints(models.Model):
-    _name = 'checklist.points'
-    _description = "Checklist Points"
-
-    name = fields.Char(string='Name')
-    type_ids = fields.Many2many('fleet.repair.checklist')
 class ParkingSlot(models.Model):
     _name = 'parking.slot'
     _description = "Parking Slot"
@@ -673,23 +662,6 @@ class AccountAnalyticLine(models.Model):
             else:
                 timesheet.total_cost = 0.0
 
-class FleetRepairImageLine(models.Model):
-    _name = 'fleet.repair.image.line'
-    _description = 'Repair Image Line'
-
-    repair_id = fields.Many2one('fleet.repair', string='Repair')
-
-    b_image1 = fields.Binary('Image1')
-    b_image2 = fields.Binary('Image2')
-    b_image3 = fields.Binary('Image3')
-    b_image4 = fields.Binary('Image4')
-    b_image5 = fields.Binary('Image5')
-    a_image1 = fields.Binary('Image1')
-    a_image2 = fields.Binary('Image2')
-    a_image3 = fields.Binary('Image3')
-    a_image4 = fields.Binary('Image4')
-    a_image5 = fields.Binary('Image5')
-
 class Technician(models.Model):
     _name = 'technician'
     _description = 'Technician'
@@ -705,3 +677,13 @@ class ResPartner(models.Model):
             ('supplier', 'Supplier'),
             ('technician', 'Technician'),
             ], 'Partner Type')
+
+class FleetRepairChecklist(models.Model):
+    _name = 'fleet.repair.checklist'
+    _description = "FLEET REPAIR Checklist"
+
+    name = fields.Char('Checklist Name')
+    active = fields.Boolean(default=True)
+    description = fields.Char(string="Description")
+    done = fields.Boolean(string="Done")
+    repair_id = fields.Many2one('fleet.repair', string="Checklist",ondelete='cascade')

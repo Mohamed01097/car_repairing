@@ -4,15 +4,7 @@ from odoo import fields, models, _,api
 from odoo.exceptions import UserError
 
 
-class FleetRepairChecklist(models.Model):
-    _name = 'fleet.repair.checklist'
-    _description = "FLEET REPAIR Checklist"
 
-    name = fields.Char('Checklist Name')
-    active = fields.Boolean(default=True)
-    description = fields.Char(string="Description")
-    done = fields.Boolean(string="Done")
-    checklist_id = fields.Many2one('fleet.repair', string="Checklist",ondelete='cascade')
 
 
     # def unlink(self):

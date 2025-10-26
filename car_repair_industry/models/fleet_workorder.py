@@ -3,7 +3,7 @@
 
 from odoo import fields, models, api, _
 from datetime import date, time, datetime, timedelta
-
+from odoo.exceptions import UserError
 
 class FleetWorkOrder(models.Model):
     _name = 'fleet.workorder'
@@ -28,7 +28,7 @@ class FleetWorkOrder(models.Model):
     delay = fields.Float(string='Working Hours', readonly=True)
     hours_worked = fields.Float(string='Hours Worked')
     state = fields.Selection(
-        [('draft', 'Draft'), ('cancel', 'Cancelled'), ('pause', 'Pending'), ('startworking', 'In Progress'),
+        [('draft', 'Draft'), ('cancel', 'Cancelled'), ('pause', 'Paused'), ('startworking', 'In Progress'),
          ('done', 'Finished'), ('deleted', 'Deleted')], 'Status', readonly=True, copy=False,
         help="* When a work order is created it is set in 'Draft' status.\n" \
              "* When user sets work order in start mode that time it will be set in 'In Progress' status.\n" \
@@ -74,7 +74,14 @@ class FleetWorkOrder(models.Model):
     car_lift = fields.Many2one('car.lift', string="Car Lift")
     parking_slot = fields.Many2one('parking.slot', string="Parking Slot")
     responsible_person = fields.Many2one('res.partner', string="Responsible Technician")
-
+    checklist_ids = fields.Many2many('fleet.repair.checklist', string='Checklist')
+    notes = fields.Text()
+    repair_image_line_ids = fields.One2many(
+        'fleet.repair.image.line',
+        'workorder_id',
+        string='Repair Images'
+    )
+    order_checklist_ids = fields.One2many('fleet.repair.checklist.order', 'workorder_id', string='Repair Checklist')
     _order = 'id desc'
 
     @api.depends('fleet_repair_id')
@@ -172,15 +179,17 @@ class FleetWorkOrder(models.Model):
         self._create_timer_log('resume', duration=paused_hours)
         self.write({'state': 'startworking'})
 
-
     def button_pause(self):
-        if self.state != 'startworking':
-            return
-        self.write({
-            'pause_time': datetime.now(),
-            'state': 'pause',
-        })
-        self._create_timer_log('pause')
+        """Open wizard to enter pause reason"""
+        self.ensure_one()
+        return {
+            'name': 'Pause Work Order',
+            'type': 'ir.actions.act_window',
+            'res_model': 'pause.reason.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_workorder_id': self.id},
+        }
 
     def button_draft(self):
         self.write({'state': 'draft'})
@@ -204,6 +213,10 @@ class FleetWorkOrder(models.Model):
         """ Sets state to done, writes finish date and calculates delay.
         @return: True
         """
+        for line in self.order_checklist_ids:
+            if not line.done:
+                raise UserError(_("Please complete all checklist items before marking the work order as done."))
+
         if not self.date_start:
             return
         now = datetime.now()
@@ -221,6 +234,44 @@ class FleetWorkOrder(models.Model):
         if self.fleet_repair_id:
             self.fleet_repair_id.sudo().write({'state': 'work_completed'})
         return True
+    def select_all(self):
+        for line in self.repair_checklist_ids:
+            line.done = True
+
+    @api.onchange('checklist_ids')
+    def onchange_checklist_ids(self):
+        for rec in self:
+            if rec.checklist_ids:
+                checklist_points = self.env['checklist.points'].search([
+                    ('type_ids', 'in', rec.checklist_ids.ids)
+                ])
+                rec.repair_checklist_ids = [(5, 0, 0)] + [
+                    (0, 0, {
+                        'name': point.name,
+                        'description': '',  # يمكن تهيئته من point لو عندك
+                        'done': False,
+                    }) for point in checklist_points
+                ]
+            else:
+                rec.repair_checklist_ids = [(5, 0, 0)]
+class FleetRepairImageLine(models.Model):
+    _name = 'fleet.repair.image.line'
+    _description = 'Repair Image Line'
+
+    workorder_id = fields.Many2one('fleet.workorder', string='Repair')
+
+    b_image1 = fields.Binary('Image1')
+    b_image2 = fields.Binary('Image2')
+    b_image3 = fields.Binary('Image3')
+    b_image4 = fields.Binary('Image4')
+    b_image5 = fields.Binary('Image5')
+    a_image1 = fields.Binary('Image1')
+    a_image2 = fields.Binary('Image2')
+    a_image3 = fields.Binary('Image3')
+    a_image4 = fields.Binary('Image4')
+    a_image5 = fields.Binary('Image5')
+
+
 
 class WorkorderTimerLine(models.Model):
     _name = 'workorder.timer.line'
@@ -236,3 +287,21 @@ class WorkorderTimerLine(models.Model):
     ], string="Action", required=True)
     action_time = fields.Datetime(string="Time", required=True)
     duration = fields.Float(string="Duration (Hours)")
+    reason = fields.Text(string="Reason")  # 🔹 السبب
+
+class ChecklistPoints(models.Model):
+    _name = 'checklist.points'
+    _description = "Checklist Points"
+
+    name = fields.Char(string='Name')
+    type_ids = fields.Many2many('fleet.repair.checklist')
+
+class FleetRepairChecklist(models.Model):
+    _name = 'fleet.repair.checklist.order'
+    _description = "FLEET REPAIR Checklist"
+
+    name = fields.Char('Checklist Name')
+    active = fields.Boolean(default=True)
+    description = fields.Char(string="Description")
+    done = fields.Boolean(string="Done")
+    workorder_id = fields.Many2one('fleet.workorder', string="Checklist",ondelete='cascade')
