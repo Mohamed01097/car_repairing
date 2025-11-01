@@ -67,6 +67,7 @@ class SaleOrder(models.Model):
             'user_id': order.user_id.id,
             'confirm_sale_order': True,
             'order_checklist_ids': order_checklist_ids,
+            'checklist_ids': order.fleet_repair_id.checklist_ids,
         }
         wo_id = self.env['fleet.workorder'].create(wo_vals)
         for line in order.fleet_repair_id.fleet_repair_line:

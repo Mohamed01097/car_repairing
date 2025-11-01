@@ -21,13 +21,13 @@
 
                         <div class="oe_button_box" name="button_box">
 
-                            <!--     start                       <button type="object"-->
-                            <!--                                    name="button_view_workorder"-->
-                            <!--                                    class="oe_stat_button"-->
-                            <!--                                    icon="fa-wrench"-->
-                            <!--                                    groups="base.group_user">-->
-                            <!--                                <field name="workorder_count" widget="statinfo" string="Work Order"/>-->
-                            <!--                            </button>-->
+                            <button type="object"
+                                    name="button_view_workorder"
+                                    class="oe_stat_button"
+                                    icon="fa-wrench"
+                                    groups="base.group_user">
+                                <field name="workorder_count" widget="statinfo" string="Work Order"/>
+                            </button>
 
 
                             <!--                            <button type="object"-->
