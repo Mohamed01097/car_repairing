@@ -1,125 +1,169 @@
 <odoo>
-    <record id="view_picking_form" model="ir.ui.view">
-        <field name="name">stock.picking.view.form</field>
-        <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock.view_picking_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
-                <button
-                        string="Camera"
-                        name="action_camera_capture"
-                        icon="fa-camera"
-                        type="object"/>
-            </xpath>
-            <xpath expr="//page[last()]" position="after">
-                <page string="Media">
-<!--                    <field name="capture_ids" widget="one2many">-->
-<!--                        <list create="false" edit="false" delete="true">-->
-<!--                            <field name="name" readonly="1"/>-->
-<!--                            <field name="mimetype" string="Type" readonly="1"/>-->
-<!--                            <field name="file_size" string="Size" readonly="1"/>-->
-<!--                            <button string="View" class="btn-primary" name="action_capture_show" type="object"-->
-<!--                                    icon="fa-eye"/>-->
-<!--                        </list>-->
-<!--                    </field>-->
+    <!--    <record id="view_picking_form" model="ir.ui.view">-->
+    <!--        <field name="name">stock.picking.view.form</field>-->
+    <!--        <field name="model">stock.picking</field>-->
+    <!--        <field name="inherit_id" ref="stock.view_picking_form"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//header" position="inside">-->
+    <!--                -->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//page[last()]" position="after">-->
+    <!--                <page string="Media">-->
+    <!--&lt;!&ndash;                    <field name="capture_ids" widget="one2many">&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <list create="false" edit="false" delete="true">&ndash;&gt;-->
+    <!--&lt;!&ndash;                            <field name="name" readonly="1"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                            <field name="mimetype" string="Type" readonly="1"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                            <field name="file_size" string="Size" readonly="1"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                            <button string="View" class="btn-primary" name="action_capture_show" type="object"&ndash;&gt;-->
+    <!--&lt;!&ndash;                                    icon="fa-eye"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                        </list>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    </field>&ndash;&gt;-->
 
-                     <field name="capture_ids" mode="kanban" create="false" edit="false" >
-                                <kanban create="false" quick_create="false" editable="false">
-                                    <templates>
-                                         <t t-name="card" class="flex-row">
-                                             <aside class="o_kanban_aside_full">
-                                                <field name="datas" class="o_kanban_image_fill w-100" widget="image" options="{'img_class': 'object-fit-cover'}" alt="Contact image"/>
-                                            </aside>
-                                              <main class="ps-2 ps-md-0">
-                                            <field name="name" readonly="1" class="fw-bold"/>
+    <!--                     <field name="capture_ids" mode="kanban" create="false" edit="false" >-->
+    <!--                                <kanban create="false" quick_create="false" editable="false">-->
+    <!--                                    <templates>-->
+    <!--                                         <t t-name="card" class="flex-row">-->
+    <!--                                             <aside class="o_kanban_aside_full">-->
+    <!--                                                <field name="datas" class="o_kanban_image_fill w-100" widget="image" options="{'img_class': 'object-fit-cover'}" alt="Contact image"/>-->
+    <!--                                            </aside>-->
+    <!--                                              <main class="ps-2 ps-md-0">-->
+    <!--                                            <field name="name" readonly="1" class="fw-bold"/>-->
 
-                                                  <div >Type: <field name="mimetype"/></div>
-                                                <div >Size: <field name="file_size"/></div>
+    <!--                                                  <div >Type: <field name="mimetype"/></div>-->
+    <!--                                                <div >Size: <field name="file_size"/></div>-->
 
-                                            <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
-                                               </main>
-                                         </t>
+    <!--                                            <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>-->
+    <!--                                               </main>-->
+    <!--                                         </t>-->
 
-                                    </templates>
-                                </kanban>
+    <!--                                    </templates>-->
+    <!--                                </kanban>-->
 
 
-                    </field>
-                </page>
-            </xpath>
-        </field>
-    </record>
+    <!--                    </field>-->
+    <!--                </page>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
     <record id="view_fleet_order_form_inherit" model="ir.ui.view">
         <field name="name">fleet order form</field>
         <field name="model">fleet.workorder</field>
         <field name="inherit_id" ref="car_repair_industry.view_fleet_workorder_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
-                <button
-                        string="Camera"
-                        name="action_camera_capture"
-                        icon="fa-camera"
-                        type="object"/>
-            </xpath>
             <xpath expr="//notebook" position="inside">
-<!--                Chang Page Name Only + Add New One-->
+                <!--                Chang Page Name Only + Add New One-->
                 <page string="Before Installation Images">
-<!--                    <field name="capture_ids" widget="one2many">-->
-<!--                        <list create="false" edit="false" delete="true">-->
-<!--                            <field name="name" readonly="1"/>-->
-<!--                            <field name="datas" widget="image"/>-->
-<!--                            <field name="mimetype" string="Type" readonly="1"/>-->
-<!--                            <field name="file_size" string="Size" readonly="1"/>-->
-<!--                            <button string="View" class="btn-primary" name="action_capture_show" type="object"-->
-<!--                                    icon="fa-eye"/>-->
-<!--                        </list>-->
-<!--                    </field>-->
-
+                    <!--                    <field name="capture_ids" widget="one2many">-->
+                    <!--                        <list create="false" edit="false" delete="true">-->
+                    <!--                            <field name="name" readonly="1"/>-->
+                    <!--                            <field name="datas" widget="image"/>-->
+                    <!--                            <field name="mimetype" string="Type" readonly="1"/>-->
+                    <!--                            <field name="file_size" string="Size" readonly="1"/>-->
+                    <!--                            <button string="View" class="btn-primary" name="action_capture_show" type="object"-->
+                    <!--                                    icon="fa-eye"/>-->
+                    <!--                        </list>-->
+                    <!--                    </field>-->
+                    <button
+                            string="Capture"
+                            name="action_camera_capture_before"
+                            type="object"
+                            class="btn-primary mb-2"
+                            icon="fa-camera"/>
                     <field name="capture_ids" mode="kanban">
-                                <kanban create="false" quick_create="false" editable="false">
-                                    <templates>
-                                         <t t-name="card" class="flex-row">
-                                             <aside class="o_kanban_aside_full">
-                                                <field name="datas" class="o_kanban_image_fill w-100" widget="image" options="{'img_class': 'object-fit-cover'}" alt="Contact image"/>
-                                            </aside>
-                                              <main class="ps-2 ps-md-0">
-                                            <field name="name" readonly="1" class="fw-bold"/>
+                        <kanban create="false" quick_create="false" editable="false">
+                            <templates>
+                                <t t-name="card" class="flex-row">
+                                    <aside class="o_kanban_aside_full">
+                                        <field name="datas" class="o_kanban_image_fill w-100" widget="image"
+                                               options="{'img_class': 'object-fit-cover'}" alt="Contact image"/>
+                                    </aside>
+                                    <main class="ps-2 ps-md-0">
+                                        <field name="name" readonly="1" class="fw-bold"/>
 
-                                                  <div >Type: <field name="mimetype"/></div>
-                                                <div >Size: <field name="file_size"/></div>
+                                        <div>Type:
+                                            <field name="mimetype"/>
+                                        </div>
+                                        <div>Size:
+                                            <field name="file_size"/>
+                                        </div>
 
-                                            <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
-                                               </main>
-                                         </t>
+                                        <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
+                                    </main>
+                                </t>
 
-                                    </templates>
-                                </kanban>
+                            </templates>
+                        </kanban>
 
 
                     </field>
 
                 </page>
-<!--                Second Page-->
-                 <page string="After Installation Images">
-                    <field name="after_capture_ids" mode="kanban" >
-                                <kanban create="false" quick_create="false" editable="false">
-                                    <templates>
-                                         <t t-name="card" class="flex-row">
-                                             <aside class="o_kanban_aside_full">
-                                                <field name="datas" class="o_kanban_image_fill w-100" widget="image" options="{'img_class': 'object-fit-cover'}" alt="Contact image"/>
-                                            </aside>
-                                              <main class="ps-2 ps-md-0">
-                                            <field name="name" readonly="1" class="fw-bold"/>
+                <!--                Second Page-->
+                <page string="After Installation Images">
+                    <button
+                            string="Capture"
+                            name="action_camera_capture_after"
+                            type="object"
+                            class="btn-primary mb-2"
+                            icon="fa-camera"/>
+                    <field name="after_capture_ids" mode="kanban">
+                        <kanban create="false" quick_create="false" editable="false">
+                            <templates>
+                                <t t-name="card" class="flex-row">
+                                    <aside class="o_kanban_aside_full">
+                                        <field name="datas" class="o_kanban_image_fill w-100" widget="image"
+                                               options="{'img_class': 'object-fit-cover'}" alt="Contact image"/>
+                                    </aside>
+                                    <main class="ps-2 ps-md-0">
+                                        <field name="name" readonly="1" class="fw-bold"/>
 
-                                                  <div >Type: <field name="mimetype"/></div>
-                                                <div >Size: <field name="file_size"/></div>
+                                        <div>Type:
+                                            <field name="mimetype"/>
+                                        </div>
+                                        <div>Size:
+                                            <field name="file_size"/>
+                                        </div>
 
-                                            <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
-                                               </main>
-                                         </t>
+                                        <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
+                                    </main>
+                                </t>
 
-                                    </templates>
-                                </kanban>
+                            </templates>
+                        </kanban>
+                    </field>
+
+                </page>
+                <page name="work_permit" string="Work Permit">
+                    <button
+                            string="Capture"
+                            name="action_camera_capture_permit"
+                            type="object"
+                            class="btn-primary mb-2"
+                            icon="fa-camera"/>
+                    <field name="permit_capture_ids" mode="kanban">
+                        <kanban create="false" quick_create="false" editable="false">
+                            <templates>
+                                <t t-name="card" class="flex-row">
+                                    <aside class="o_kanban_aside_full">
+                                        <field name="datas" class="o_kanban_image_fill w-100" widget="image"
+                                               options="{'img_class': 'object-fit-cover'}" alt="Contact image"/>
+                                    </aside>
+                                    <main class="ps-2 ps-md-0">
+                                        <field name="name" readonly="1" class="fw-bold"/>
+
+                                        <div>Type:
+                                            <field name="mimetype"/>
+                                        </div>
+                                        <div>Size:
+                                            <field name="file_size"/>
+                                        </div>
+
+                                        <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
+                                    </main>
+                                </t>
+
+                            </templates>
+                        </kanban>
                     </field>
 
                 </page>

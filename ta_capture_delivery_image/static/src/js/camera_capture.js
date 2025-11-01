@@ -411,13 +411,14 @@ export class CameraCapture extends Component {
 
     async saveCapture() {
         try {
+            const image_type = this.props.action.context.default_image_type || 'before';
             const note = document.querySelector('#camera_note').value;
             const result = await rpc("/web/dataset/call_kw/ir.attachment/camera_save_capture", {
-                model: 'ir.attachment',
-                method: 'camera_save_capture',
-                args: [this.res_model, this.res_id, this.state.capture_base64String, this.state.mimetype, note],
-                kwargs: {}
-            });
+            model: 'ir.attachment',
+            method: 'camera_save_capture',
+            args: [this.res_model, this.res_id, this.state.capture_base64String, this.state.mimetype, note, image_type],
+            kwargs: {}
+        });
 
             if (result.warning) {
                 this.notification.add(result.warning, {

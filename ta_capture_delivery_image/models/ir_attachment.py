@@ -8,11 +8,12 @@ class IrAttachment(models.Model):
 
     image_type = fields.Selection([
         ('before', 'Before Installation'),
+        ('permit', 'Permit Installation'),
         ('after', 'After Installation'),
     ], string='Image Type')
 
     @api.model
-    def action_camera_capture(self, res_mode, res_id,image_type):
+    def action_camera_capture(self, res_mode, res_id, image_type):
         return {
             'type': 'ir.actions.client',
             'name': 'Image Capture',
@@ -21,7 +22,7 @@ class IrAttachment(models.Model):
                 'no_breadcrumbs': True,
                 'res_id': res_id,
                 'res_model': res_mode,
-                'default_image_type': 'after',
+                'default_image_type': image_type,  # ✅ نحفظ نوع الصورة في الـ context
             }
         }
     
@@ -39,36 +40,26 @@ class IrAttachment(models.Model):
         }
 
     @api.model
-    def camera_save_capture(self, res_model, res_id, data, mimetype, note=''):
+    def camera_save_capture(self, res_model, res_id, data, mimetype, note='', image_type='before'):
         model = self.env[res_model].sudo().browse(res_id)
-        if model:
-            try:
-                image_type = 'before'
-                if hasattr(model, 'state') and model.state == 'done':
-                    image_type = 'after'
-                # Get current time in UTC timezone
-                utc_now = datetime.now(pytz.UTC)
-                filename = 'Captured on %s' %(utc_now.strftime('%H:%M:%S %d/%m/%Y'))
-                data = data.split(',')[1]
-                data += "=" * ((4 - len(data) % 4) % 4) 
-                val={
-                    'name': filename,
-                    'type': 'binary',
-                    'datas': data,
-                    'res_model': res_model,
-                    'res_id': res_id,
-                    'store_fname': filename,
-                    'mimetype': mimetype,
-                    'image_type': image_type,
-                }
-                attach = self.env['ir.attachment'].sudo().create(val)
-                print(attach)
-                message_body = 'Captured on %s' % utc_now.strftime('%H:%M:%S %d/%m/%Y')
-                if note:
-                    message_body += ' with note: %s' % note
-                # model.message_post(body=message_body, attachment_ids=[attach.id])
-                return {'result': ('Image captured successfully.')}
-            except Exception as e:
-                return {'warning': ('Cannot save captured image with error: %s'% e)}
-        else:
-            return {'warning': ('Record was not found.')}
+        if not model:
+            return {'warning': 'Record was not found.'}
+        try:
+            utc_now = datetime.now(pytz.UTC)
+            filename = f'Captured on {utc_now.strftime("%H:%M:%S %d/%m/%Y")}'
+            data = data.split(',')[1]
+            data += "=" * ((4 - len(data) % 4) % 4)
+            val = {
+                'name': filename,
+                'type': 'binary',
+                'datas': data,
+                'res_model': res_model,
+                'res_id': res_id,
+                'store_fname': filename,
+                'mimetype': mimetype,
+                'image_type': image_type,  # ✅ النوع القادم من الـ JS
+            }
+            self.env['ir.attachment'].sudo().create(val)
+            return {'result': f'Image ({image_type}) captured successfully.'}
+        except Exception as e:
+            return {'warning': f'Cannot save captured image with error: {e}'}
