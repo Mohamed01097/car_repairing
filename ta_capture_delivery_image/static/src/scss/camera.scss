@@ -1,0 +1,268 @@
+// ===========================================
+// CAMERA CLOCK COMPONENT
+// ===========================================
+.o_camera_clock {
+    display: none;
+    position: relative;
+    width: 100%;
+    padding: 0.5em;
+    background-color: fade-out(black, 0.7);
+    color: white;
+}
+
+// ===========================================
+// CAMERA KIOSK MODE CONTAINER
+// ===========================================
+.o_camera_kiosk_mode_container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+    background-color: fade-out($o-brand-primary, 0.5);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+// ===========================================
+// MAIN CAMERA COMPONENT
+// ===========================================
+.o_camera {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    background-color: fade-out(white, 0.1);
+    
+    .o_camera_kiosk_welcome_row {
+        img {
+            max-width: 80px;
+        }
+    }
+}
+
+// ===========================================
+// CAMERA KIOSK MODE
+// ===========================================
+.o_camera_kiosk_mode {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    background-color: fade-out(white, 0.1);
+    
+    // Welcome row styles
+    .o_camera_kiosk_welcome_row {
+        img {
+            max-width: 80px;
+        }
+    }
+    
+    // Primary button styles
+    .o_camera_primary_btn {
+        cursor: pointer;
+        margin-top: 0.3rem;
+        margin-bottom: 0.3rem;
+        padding: 0.15em 0.3em;
+        border-radius: .1em;
+        box-shadow: inset 0 -3px 0 fade-out(black, 0.7);
+        background-color: gray('100');
+
+        &.btn-secondary:hover {
+            color: $o-brand-primary;
+        }
+    }
+    
+    // Back button styles
+    .o_camera_back_button {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 25px;
+        right: 0px;
+        bottom: auto;
+        width: 2em;
+        height: 2em;
+        padding-left: 9px;
+        line-height: 1.1em;
+        text-align: left;
+        font-size: 1em;
+        z-index: 1;
+    }
+
+    // Secondary button styles
+    .btn-secondary {
+        box-shadow: inset 0 0 0 1px fade-out(black, 0.9);
+        color: $headings-color;
+    }
+    
+    // User badge styles
+    .o_camera_user_badge {
+        background: linear-gradient(to right bottom, #77717e, #c9a8a9);
+
+        img {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 1px solid #d7d7d7;
+        }
+
+        + h1 {
+            margin-top: .4em;
+        }
+    }
+    
+    // Random message styles
+    .o_camera_random_message {
+        font-style: italic;
+    }
+    
+    // Company image styles
+    img.o_camera_kiosk_company_image {
+        overflow: hidden; // prevent margins colapsing with h1
+        margin: 1rem 0 4rem;
+        width: 200px;
+    }
+    
+    // Paragraph styles
+    p {
+        text-align: left;
+        margin: 5px 0 0 0;
+    }
+    
+    textarea#camera_note {
+        border: 1px solid grey;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+
+    // Button styles
+    button {
+        margin-top: 0.3rem;
+        margin-bottom: 0.3rem;
+        width: 100%;
+        font-weight: 400;
+        border-radius: 5px;
+        background-color: $o-brand-primary;
+        color: white;
+        border: none;
+        padding: 3px;
+    }
+    
+    // Select and option styles
+    select, 
+    option {
+        margin-top: 0.3rem;
+        margin-bottom: 0.3rem;
+        width: 100%;
+        font-weight: 400;
+        border-radius: 5px;
+        background-color: $o-brand-primary;
+        color: white;
+        border: none;
+        padding: 3px 15px !important;
+    }
+}
+
+// ===========================================
+// MOBILE STYLES (≤ 576px - SM AND DOWN)
+// ===========================================
+@media (max-width: 575.98px) {
+    .o_camera {
+        overflow: hidden;
+        flex: 1 0 auto;
+    }
+    
+    .o_camera_kiosk_mode {
+        overflow: hidden;
+        padding: 0 2em 2em;
+        flex: 1 0 auto;
+        
+        .o_camera_kiosk_welcome_row {
+            > div {
+                margin-bottom: 20px;
+            }
+        }
+        
+        .o_camera_user_badge {
+            margin: 1em -2em 0;
+            background: transparent;
+        }
+    }
+}
+
+// ===========================================
+// TABLET STYLES (≤ 768px - MD AND DOWN)
+// ===========================================
+@media (max-width: 767.98px) {
+    .o_camera .o_camera_kiosk_welcome_row {
+        > div {
+            margin-bottom: 0px;
+        }
+    }
+}
+
+// ===========================================
+// DESKTOP STYLES (≥ 768px - MD AND UP)
+// ===========================================
+@media (min-width: 768px) {
+    .o_camera_clock {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: auto;
+        padding: 3px 10px 3px 10px;
+        border-radius: 3px;
+        font-size: 1.5em;
+    }
+    
+    .o_camera_kiosk_mode_container {
+        justify-content: center;
+    }
+    
+    .o_camera {
+        width: auto;
+        width: 100%;
+        border-radius: 0.2em;
+        animation: fadeInDownSmall .3s;
+        
+        .o_camera_kiosk_welcome_row {
+            display: flex;
+            align-items: center;
+        }
+    }
+    
+    .o_camera_kiosk_mode {
+        padding: 1rem;
+        max-width: 50%;
+        width: 100%;
+        border-radius: 0.2em;
+        animation: fadeInDownSmall .3s;
+        
+        .o_camera_kiosk_welcome_row {
+            display: flex;
+            align-items: center;
+        }
+        
+        .o_camera_user_badge {
+            margin: 0;
+            height: 90px;
+            border-radius: .2em .2em 0 0;
+            border-top: 1px solid fade-out(white, 0.8);
+            position: absolute;
+            top: auto;
+            right: 0;
+            bottom: 100%;
+            left: 0;
+            transform: translateY(3px);
+
+            img {
+                width: 80px;
+                height: 80px;
+                transform: translateX(-50%)translateY(35%);
+                position: absolute;
+                bottom: 0;
+            }
+        }
+    }
+}

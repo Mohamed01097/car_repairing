@@ -130,7 +130,8 @@
                                     </list>
                                 </field>
                             </page>
-                            <page name="images_before" string="Before Installation Images">
+<!--                            Add Invisible Attribute-->
+                            <page name="images_before" string="Before Installation Images" invisible="1"> Add Invisible Attribute
                                 <field name="repair_image_line_ids">
                                     <list>
                                         <field name="b_image1" widget="image" class="oe_avatar oe_small"/>
@@ -165,7 +166,8 @@
                                     </form>
                                 </field>
                             </page>
-                            <page name="images_after" string="After Installation Images">
+<!--                            Add Invisible Attribute-->
+                            <page name="images_after" string="After Installation Images" invisible="1">
                                 <field name="repair_image_line_ids">
                                     <list>
                                         <field name="a_image1" widget="image" class="oe_avatar oe_small"/>

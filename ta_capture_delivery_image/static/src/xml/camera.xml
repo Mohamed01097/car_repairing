@@ -1,0 +1,54 @@
+<templates id="template" xml:space="preserve">
+
+    <t t-name="camera_capture_qweb">
+        <div class="o_camera_kiosk_mode_container">
+            <div class="o_camera_kiosk_mode" style="display: none">
+                <div class="header">
+                    <p class="title_camera">Camera</p>
+                    <span class="btn d-none d-md-inline-block o_camera_back_button" id="back-button" t-on-click="onBackButton">
+                        <i class="fa fa-close" role="img" aria-label="Go back" title="Go back"/>
+                    </span>
+                </div>
+                <canvas id="canvas" class="o_camera"></canvas>
+                <video id="videocapture" class="o_camera"></video>
+                <img id="imagecapture" class="o_camera" style="display: none;"/>
+                <textarea id="camera_note" class="camera_note" placeholder="Note"></textarea>
+                <p id="title_output_device" class="title_output_device">Output Device</p>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <select id="videoSource"></select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <select id="audioSource"></select>
+                    </div>
+                </div>
+                <p class="title_action">Action</p>
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <button id="start-capture" t-on-click="onCaptureButton">Take Photo</button>
+                        <button id="save-record" style="display: none;" t-on-click="onSaveButton">Save</button>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <button id="start-record" t-on-click="onRecordButton">Record Video</button>
+                        <button id="delete-record" style="display: none;" t-on-click="onDeleteButton">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="capture_preview_qweb">
+        <div class="o_camera_kiosk_mode_container">
+            <div class="o_camera_kiosk_mode" style="display: none">
+                <div class="header">
+                    <p class="title_camera">Camera</p>
+                    <span class="btn d-none d-md-inline-block o_camera_back_button" id="back-button" t-on-click="onBackButton">
+                        <i class="fa fa-close" role="img" aria-label="Go back" title="Go back"/>
+                    </span>
+                </div>
+                <video id="videocapture" class="o_camera"></video>
+                <img id="imagecapture" class="o_camera" style="display: none;"/>
+            </div>
+        </div>
+    </t>
+</templates>
