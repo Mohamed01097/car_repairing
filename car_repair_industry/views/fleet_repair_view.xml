@@ -237,12 +237,29 @@
             <field name="name">price.list.form.view</field>
             <field name="model">price.list</field>
             <field name="arch" type="xml">
-                <form>
-                    <sheet string="Price List">
+                <form string="Price List">
+                    <sheet>
                         <group>
-                            <group>
-                                <field name="name"/>
-                            </group>
+                            <field name="date"/>
+                            <field name="customer_id"/>
+                            <field name="sale_order_template_id" options="{'no_create': True}"/>
+                        </group>
+                        <notebook>
+                            <page string="Order Lines">
+                                <field name="order_line">
+                                    <list editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="product_uom_qty"/>
+                                        <field name="product_uom"/>
+                                        <field name="price_unit"/>
+                                        <field name="price_subtotal" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group>
+                            <field name="total_amount" readonly="1"/>
                         </group>
                     </sheet>
                 </form>
@@ -301,7 +318,10 @@
             <field name="model">price.list</field>
             <field name="arch" type="xml">
                 <list string="Service Type">
-                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <field name="sale_order_template_id"/>
+                    <field name="total_amount"/>
+                    <field name="date"/>
                 </list>
             </field>
         </record>
@@ -392,10 +412,11 @@
                   sequence="80"/>
 
 
-<!--        <menuitem name="Service Type" parent="menu_sub_car_repair" id="menu_service_type" sequence="11"-->
-<!--                  action="action_service_type"/>-->
+        <!--        <menuitem name="Service Type" parent="menu_sub_car_repair" id="menu_service_type" sequence="11"-->
+        <!--                  action="action_service_type"/>-->
 
-        <menuitem name="Service Type" parent="car_repair_industry.menu_configuration" id="menu_service_type" sequence="16"
+        <menuitem name="Service Type" parent="car_repair_industry.menu_configuration" id="menu_service_type"
+                  sequence="16"
                   action="action_service_type"/>
         <menuitem name="Price List" parent="car_repair_industry.menu_main_car_repair" id="menu_price_list" sequence="15"
                   action="action_price_list"/>
@@ -507,18 +528,18 @@
         </record>
 
 
-         <record id="fleet_vehicle_view_form" model="ir.ui.view">
-        <field name="name">fleet.vehicle.form</field>
-        <field name="model">fleet.vehicle</field>
-        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
-        <field name="arch" type="xml">
-            <field name="driver_id" position="after">
-                 <field name="owner_id"/>
-                <field name="phone"/>
-            </field>
+        <record id="fleet_vehicle_view_form" model="ir.ui.view">
+            <field name="name">fleet.vehicle.form</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="arch" type="xml">
+                <field name="driver_id" position="after">
+                    <field name="owner_id"/>
+                    <field name="phone"/>
+                </field>
 
-        </field>
-    </record>
+            </field>
+        </record>
 
     </data>
 </odoo>

@@ -179,14 +179,14 @@
 		</record>
 		
 
-		<menuitem name="Car Diagnosis"
-                  parent="menu_sub_car_repair"
-                  id="menu_fleet_diagnosis_submenu"
-                  sequence="7"
-                  action="action_fleet_diagnose_tree_view"
-                  groups="base.group_no_one"
+<!--		<menuitem name="Car Diagnosis"-->
+<!--                  parent="menu_sub_car_repair"-->
+<!--                  id="menu_fleet_diagnosis_submenu"-->
+<!--                  sequence="7"-->
+<!--                  action="action_fleet_diagnose_tree_view"-->
+<!--                  groups="base.group_no_one"-->
 
-        />
+<!--        />-->
 
 
 

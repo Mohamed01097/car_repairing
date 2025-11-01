@@ -522,7 +522,45 @@ class PriceList(models.Model):
     _name = 'price.list'
     _description = "Service Type"
 
-    name = fields.Char(string='Name')
+    customer_id = fields.Many2one('res.partner', string='Customer', required=True)
+    sale_order_template_id = fields.Many2one('sale.order.template', string='Sale Order Template')
+    order_line = fields.One2many('sale.order.line', 'order_id', string='Order Lines')
+
+    date = fields.Date(string="Date", default=fields.Date.today)
+    total_amount = fields.Float(string="Total", compute="_compute_total", store=True)
+    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
+
+    @api.depends('order_line.price_subtotal')
+    def _compute_total(self):
+        for rec in self:
+            rec.total_amount = sum(line.price_subtotal for line in rec.order_line)
+
+    @api.onchange('sale_order_template_id')
+    def _onchange_sale_order_template_id(self):
+        """لو اختار قالب عرض سعر، انسخ منه السطور"""
+        if not self.sale_order_template_id:
+            self.order_line = [(5, 0, 0)]  # clear
+            return
+
+        lines = []
+        for tmpl_line in self.sale_order_template_id.sale_order_template_line_ids:
+            lines.append((0, 0, {
+                'product_id': tmpl_line.product_id.id,
+                'name': tmpl_line.name or tmpl_line.product_id.name,
+                'product_uom_qty': tmpl_line.product_uom_qty,
+                'product_uom': tmpl_line.product_uom_id.id,
+                'price_unit': tmpl_line.product_id.list_price,
+                'price_subtotal': tmpl_line.product_id.list_price * tmpl_line.product_uom_qty,
+                'order_id': 1,
+                'price_list_id': self.id,
+            }))
+        self.order_line = lines
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+    _description = 'Sale Order Line'
+
+    price_list_id = fields.Many2one('price.list', string='Order')
 class ParkingSlot(models.Model):
     _name = 'parking.slot'
     _description = "Parking Slot"

@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="88dab35c-e00d-4211-9cc7-59fc9819abe0" name="Changes" comment="work order camera">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car_repair_industry/models/custom_sale.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/models/custom_sale.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car_repair_industry/models/fleet_repair.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/models/fleet_repair.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car_repair_industry/views/fleet_diagnose_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/views/fleet_diagnose_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car_repair_industry/views/fleet_repair_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/views/fleet_repair_view.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car_repair_industry/views/fleet_workorder_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/views/fleet_workorder_view.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
