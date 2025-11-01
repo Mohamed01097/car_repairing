@@ -25,9 +25,9 @@ class IrAttachment(models.Model):
                 'default_image_type': image_type,  # ✅ نحفظ نوع الصورة في الـ context
             }
         }
-    
+
     def action_capture_show(self):
-        base64String = 'data:%s;base64,%s' %(self.mimetype, self.datas.decode('utf-8'))
+        base64String = 'data:%s;base64,%s' % (self.mimetype, self.datas.decode('utf-8'))
         return {
             'type': 'ir.actions.client',
             'name': 'Image Capture',
@@ -39,6 +39,9 @@ class IrAttachment(models.Model):
             }
         }
 
+    def action_quick_delete(self):
+        for rec in self:
+            rec.unlink()
     @api.model
     def camera_save_capture(self, res_model, res_id, data, mimetype, note='', image_type='before'):
         model = self.env[res_model].sudo().browse(res_id)

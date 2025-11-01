@@ -20,7 +20,7 @@
     <!--&lt;!&ndash;                    </field>&ndash;&gt;-->
 
     <!--                     <field name="capture_ids" mode="kanban" create="false" edit="false" >-->
-    <!--                                <kanban create="false" quick_create="false" editable="false">-->
+    <!--                                <kanban create="false"  editable="false">-->
     <!--                                    <templates>-->
     <!--                                         <t t-name="card" class="flex-row">-->
     <!--                                             <aside class="o_kanban_aside_full">-->
@@ -70,7 +70,7 @@
                             class="btn-primary mb-2"
                             icon="fa-camera"/>
                     <field name="capture_ids" mode="kanban">
-                        <kanban create="false" quick_create="false" editable="false">
+                        <kanban create="false">
                             <templates>
                                 <t t-name="card" class="flex-row">
                                     <aside class="o_kanban_aside_full">
@@ -86,8 +86,12 @@
                                         <div>Size:
                                             <field name="file_size"/>
                                         </div>
-
-                                        <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
+                                        <div class="mt-2">
+                                            <a class="btn-primary" name="action_capture_show" type="object"
+                                               icon="fa-eye"/>
+                                            <a class="btn-primary" name="action_quick_delete" type="object"
+                                               icon="fa-trash"/>
+                                        </div>
                                     </main>
                                 </t>
 
@@ -107,7 +111,7 @@
                             class="btn-primary mb-2"
                             icon="fa-camera"/>
                     <field name="after_capture_ids" mode="kanban">
-                        <kanban create="false" quick_create="false" editable="false">
+                        <kanban create="false">
                             <templates>
                                 <t t-name="card" class="flex-row">
                                     <aside class="o_kanban_aside_full">
@@ -124,7 +128,12 @@
                                             <field name="file_size"/>
                                         </div>
 
-                                        <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
+                                        <div class="mt-2">
+                                            <a class="btn-primary" name="action_capture_show" type="object"
+                                               icon="fa-eye"/>
+                                            <a class="btn-primary" name="action_quick_delete" type="object"
+                                               icon="fa-trash"/>
+                                        </div>
                                     </main>
                                 </t>
 
@@ -141,7 +150,7 @@
                             class="btn-primary mb-2"
                             icon="fa-camera"/>
                     <field name="permit_capture_ids" mode="kanban">
-                        <kanban create="false" quick_create="false" editable="false">
+                        <kanban create="false" editable="false">
                             <templates>
                                 <t t-name="card" class="flex-row">
                                     <aside class="o_kanban_aside_full">
@@ -158,7 +167,12 @@
                                             <field name="file_size"/>
                                         </div>
 
-                                        <a class="btn-primary" name="action_capture_show" type="object" icon="fa-eye"/>
+                                        <div class="mt-2">
+                                            <a class="btn-primary" name="action_capture_show" type="object"
+                                               icon="fa-eye"/>
+                                            <a class="btn-primary" name="action_quick_delete" type="object"
+                                               icon="fa-trash"/>
+                                        </div>
                                     </main>
                                 </t>
 
@@ -167,6 +181,40 @@
                     </field>
 
                 </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_ir_attachment_form_inherit_image_type" model="ir.ui.view">
+        <field name="name">ir.attachment.form.inherit.image_type</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='datas']" position="attributes">
+                <attribute name="widget">image</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mimetype']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='website_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='res_model']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='create_uid']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[3]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[4]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[5]" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>
