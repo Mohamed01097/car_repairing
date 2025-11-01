@@ -678,6 +678,56 @@ class ResPartner(models.Model):
             ('technician', 'Technician'),
             ], 'Partner Type')
 
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = list(args or [])
+        if not name:
+            # When no name is provided, call the parent implementation
+            return super().name_search(name=name, args=args, operator=operator,
+                                       limit=limit)
+        # Add search criteria for name, email, and phone
+        domain = ['|', '|',
+                  ('name', operator, name),
+                  ('email', operator, name),
+                  ('phone', operator, name)]
+        # Combine with existing args
+        if args:
+            domain = ['&'] + args + domain
+        # Use search_fetch to get both IDs and display_name efficiently
+        partners = self.search_fetch(domain, ['display_name'], limit=limit)
+        # Return in the expected format: [(id, display_name), ...]
+        return [(partner.id, partner.display_name) for partner in partners]
+
+
+
+class Vehicle(models.Model):
+    _inherit = 'fleet.vehicle'
+
+
+    owner_id = fields.Many2one('res.partner', string='Owner',domain=[('partner_type', '=', 'supplier')])
+    phone =fields.Char(related='owner_id.phone')
+
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = list(args or [])
+        if not name:
+            # When no name is provided, call the parent implementation
+            return super().name_search(name=name, args=args, operator=operator,
+                                       limit=limit)
+        # Add search criteria for name, email, and phone
+        domain = ['|', '|',
+                  ('name', operator, name),
+                  ('owner_id', operator, name),
+                  ('phone', operator, name)]
+        # Combine with existing args
+        if args:
+            domain = ['&'] + args + domain
+        # Use search_fetch to get both IDs and display_name efficiently
+        vehicles = self.search_fetch(domain, ['display_name'], limit=limit)
+        # Return in the expected format: [(id, display_name), ...]
+        return [(vehicle.id, vehicle.display_name) for vehicle in vehicles]
+
 class FleetRepairChecklist(models.Model):
     _name = 'fleet.repair.checklist'
     _description = "FLEET REPAIR Checklist"

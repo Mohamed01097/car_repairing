@@ -16,7 +16,7 @@
     <t t-name="DashboardContent">
         <link rel="stylesheet" href="/car_repair_industry/static/src/css/dashboard_backend.css" />
         <div class="o_activity_DashboardContent">
-            <h4 class="mt16 dashboard_data_h2">Car Repair Details</h4>
+            <h4 class="mt16 dashboard_data_h2">Car Customization Details</h4>
 
             <div class="col-md-12 mt64 row activity_content_main">
                 <div class="col-md-3" t-on-click="clickCarRepair">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="activity_block_right">
                                 <span class="a_name" t-esc="fleet_repair_count" /><br/>
-                                <div class="a_name" data-activity_type="Car Repair requests">Car Repair</div>
+                                <div class="a_name" data-activity_type="Car Repair requests">Car Customization</div>
                             </div>
                         </div>
                     </a>
@@ -86,19 +86,19 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-md-3" t-on-click="clickServiceType">
-                    <a class="a_name ServiceType">
-                        <div class="activity_block">
-                            <div class="activity_block_left nth6">
-                                <i class="fa fa-cog"></i>
-                            </div>
-                            <div class="activity_block_right">
-                                <span class="a_name" t-esc="fleet_service_type_count" /><br/>
-                                <div class="a_name" data-activity_type="Service Type">Service Type</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+<!--                <div class="col-md-3" t-on-click="clickServiceType">-->
+<!--                    <a class="a_name ServiceType">-->
+<!--                        <div class="activity_block">-->
+<!--                            <div class="activity_block_left nth6">-->
+<!--                                <i class="fa fa-cog"></i>-->
+<!--                            </div>-->
+<!--                            <div class="activity_block_right">-->
+<!--                                <span class="a_name" t-esc="fleet_service_type_count" /><br/>-->
+<!--                                <div class="a_name" data-activity_type="Service Type">Service Type</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </div>-->
                 <div class="col-md-3" t-on-click="clickPriceList">
                     <a class="a_name PriceList">
                         <div class="activity_block">
@@ -112,19 +112,19 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-md-3" t-on-click="clickDeletedWorkOrders">
-                    <a class="a_name DeletedWorkOrders">
-                        <div class="activity_block">
-                            <div class="activity_block_left nth6">
-                                <i class="fa fa-trash"></i>
-                            </div>
-                            <div class="activity_block_right">
-                                <span class="a_name" t-esc="fleet_deleted_order_count" /><br/>
-                                <div class="a_name" data-activity_type="Deleted Order">Deleted Orders</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+<!--                <div class="col-md-3" t-on-click="clickDeletedWorkOrders">-->
+<!--                    <a class="a_name DeletedWorkOrders">-->
+<!--                        <div class="activity_block">-->
+<!--                            <div class="activity_block_left nth6">-->
+<!--                                <i class="fa fa-trash"></i>-->
+<!--                            </div>-->
+<!--                            <div class="activity_block_right">-->
+<!--                                <span class="a_name" t-esc="fleet_deleted_order_count" /><br/>-->
+<!--                                <div class="a_name" data-activity_type="Deleted Order">Deleted Orders</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </div>-->
             </div>
         </div>
     </t>

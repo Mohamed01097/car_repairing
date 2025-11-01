@@ -155,14 +155,14 @@
 		
 <!--fleet Diagnose Action-->
 		
-		<record model="ir.actions.act_window" id="action_fleet_diagnose_tree_view">
-			<field name="name">Car Diagnosis</field>
-			<field name="res_model">fleet.diagnose</field>
-			
-			<field name="view_mode">list,form</field>
-			<field name="search_view_id" ref="view_fleet_diagnose_filter"/>
-			<field name="view_id" ref="view_fleet_diagnose_tree"/>
-		</record>
+<!--		<record model="ir.actions.act_window" id="action_fleet_diagnose_tree_view">-->
+<!--			<field name="name">Car Diagnosis</field>-->
+<!--			<field name="res_model">fleet.diagnose</field>-->
+<!--			-->
+<!--			<field name="view_mode">list,form</field>-->
+<!--			<field name="search_view_id" ref="view_fleet_diagnose_filter"/>-->
+<!--			<field name="view_id" ref="view_fleet_diagnose_tree"/>-->
+<!--		</record>-->
 
 		<record id="view_spare_part_line_tree" model="ir.ui.view">
 			<field name="name">spare.part.line.list</field>
@@ -178,8 +178,18 @@
 			</field>
 		</record>
 		
-		
-		<menuitem name="Car Diagnosis" parent="menu_sub_car_repair" id="menu_fleet_diagnosis_submenu" sequence="7" action="action_fleet_diagnose_tree_view"/>
+
+		<menuitem name="Car Diagnosis"
+                  parent="menu_sub_car_repair"
+                  id="menu_fleet_diagnosis_submenu"
+                  sequence="7"
+                  action="action_fleet_diagnose_tree_view"
+                  groups="base.group_no_one"
+
+        />
+
+
+
 		
 	</data>
 </odoo>        

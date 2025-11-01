@@ -67,11 +67,20 @@
         </record>
 
         <!--         menu category -->
+<!--        <menuitem-->
+<!--                id="menu_fleet_checklist"-->
+<!--                action="checklist_action_view_tree"-->
+<!--                name="Checklists"-->
+<!--                parent="car_repair_industry.menu_main_car_repair"-->
+<!--                sequence="77"/>-->
+
+
+
         <menuitem
                 id="menu_fleet_checklist"
                 action="checklist_action_view_tree"
                 name="Checklists"
-                parent="car_repair_industry.menu_main_car_repair"
-                sequence="77"/>
+               parent="car_repair_industry.menu_configuration"
+                sequence="17"/>
     </data>
 </odoo>

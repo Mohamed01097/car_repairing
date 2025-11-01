@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Car Repair">
                     <header>
-                        <button name="action_create_fleet_diagnosis" string="Create Car Repair"
+                        <button name="action_create_fleet_diagnosis" string="Create Car Customization"
                                 invisible="state != 'draft'" type="object" class="oe_highlight" style="float:left;"
                                 groups="car_repair_industry.group_fleet_repair_service_manager,car_repair_industry.group_fleet_repair_directeur_commercial"/>
 
@@ -21,13 +21,13 @@
 
                         <div class="oe_button_box" name="button_box">
 
-                            <button type="object"
-                                    name="button_view_workorder"
-                                    class="oe_stat_button"
-                                    icon="fa-wrench"
-                                    groups="base.group_user">
-                                <field name="workorder_count" widget="statinfo" string="Work Order"/>
-                            </button>
+                            <!--     start                       <button type="object"-->
+                            <!--                                    name="button_view_workorder"-->
+                            <!--                                    class="oe_stat_button"-->
+                            <!--                                    icon="fa-wrench"-->
+                            <!--                                    groups="base.group_user">-->
+                            <!--                                <field name="workorder_count" widget="statinfo" string="Work Order"/>-->
+                            <!--                            </button>-->
 
 
                             <!--                            <button type="object"-->
@@ -72,7 +72,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="name" readonly="state != 'draft'" string="Work Order Name"/>
+                                <field name="name" readonly="state != 'draft'" string="Work Description"/>
                                 <field name="user_id" readonly="state != 'draft'" invisible="1"/>
                                 <field name="confirm_sale_order" invisible="True"/>
                             </group>
@@ -107,8 +107,8 @@
                                 <field name="checklist_ids" widget="many2many_tags"/>
                             </group>
                             <group>
-                                <field name="parking_slot"/>
-                                <field name="car_lift"/>
+                                <field name="parking_slot" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="car_lift" options="{'no_create': True, 'no_open': True}"/>
                             </group>
 
                         </group>
@@ -210,10 +210,10 @@
         </record>
 
         <!--Menuitems-->
-        <menuitem id="menu_main_car_repair" name="Car Repair" sequence="50"/>
-        <menuitem name="Car Repair" parent="menu_main_car_repair" id="menu_sub_car_repair" sequence="3"/>
+        <menuitem id="menu_main_car_repair" name="Car Customization" sequence="50"/>
+        <menuitem name="Car Customization" parent="menu_main_car_repair" id="menu_sub_car_repair" sequence="3"/>
 
-        <menuitem name="Car Repair" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
+        <menuitem name="Car Customization" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
                   action="action_fleet_repair_tree_view"/>
 
 
@@ -392,9 +392,12 @@
                   sequence="80"/>
 
 
-        <menuitem name="Service Type" parent="menu_sub_car_repair" id="menu_service_type" sequence="11"
+<!--        <menuitem name="Service Type" parent="menu_sub_car_repair" id="menu_service_type" sequence="11"-->
+<!--                  action="action_service_type"/>-->
+
+        <menuitem name="Service Type" parent="car_repair_industry.menu_configuration" id="menu_service_type" sequence="16"
                   action="action_service_type"/>
-        <menuitem name="Price List" parent="car_repair_industry.menu_configuration" id="menu_price_list" sequence="15"
+        <menuitem name="Price List" parent="car_repair_industry.menu_main_car_repair" id="menu_price_list" sequence="15"
                   action="action_price_list"/>
         <menuitem name="Parking Slot" parent="car_repair_industry.menu_configuration" id="menu_parking_slot"
                   sequence="15"
@@ -492,16 +495,30 @@
                 </list>
             </field>
         </record>
-        <!--        <record id="view_res_partner_form_inherit" model="ir.ui.view">-->
-        <!--            <field name="name">res.partner.form.inherit</field>-->
-        <!--            <field name="model">res.partner</field>-->
-        <!--            <field name="inherit_id" ref="base.view_partner_form"/>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <xpath expr="//field[@name='email']" position="after">-->
-        <!--                    <field name="partner_type"/>-->
-        <!--                </xpath>-->
-        <!--            </field>-->
-        <!--        </record>-->
+        <record id="view_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="before">
+                    <field name="partner_type"/>
+                </xpath>
+            </field>
+        </record>
+
+
+         <record id="fleet_vehicle_view_form" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <field name="driver_id" position="after">
+                 <field name="owner_id"/>
+                <field name="phone"/>
+            </field>
+
+        </field>
+    </record>
 
     </data>
 </odoo>

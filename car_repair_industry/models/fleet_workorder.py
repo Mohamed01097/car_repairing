@@ -84,8 +84,6 @@ class FleetWorkOrder(models.Model):
     order_checklist_ids = fields.One2many('fleet.repair.checklist.order', 'workorder_id', string='Repair Checklist')
     _order = 'id desc'
 
-
-
     @api.depends('fleet_repair_id')
     def _compute_fleet_repair_id(self):
         for order in self:
