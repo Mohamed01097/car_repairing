@@ -524,7 +524,7 @@ class PriceList(models.Model):
 
     customer_id = fields.Many2one('res.partner', string='Customer', required=True)
     sale_order_template_id = fields.Many2one('sale.order.template', string='Sale Order Template')
-    order_line = fields.One2many('sale.order.line', 'order_id', string='Order Lines')
+    order_line = fields.One2many('price.list.line', 'price_list_id', string='Order Lines')
 
     date = fields.Date(string="Date", default=fields.Date.today)
     total_amount = fields.Float(string="Total", compute="_compute_total", store=True)
@@ -551,10 +551,26 @@ class PriceList(models.Model):
                 'product_uom': tmpl_line.product_uom_id.id,
                 'price_unit': tmpl_line.product_id.list_price,
                 'price_subtotal': tmpl_line.product_id.list_price * tmpl_line.product_uom_qty,
-                'order_id': 1,
+                # 'order_id': 1,
                 'price_list_id': self.id,
             }))
         self.order_line = lines
+class PriceListLine(models.Model):
+    _name = 'price.list.line'
+    _description = "Price List Line"
+
+    price_list_id = fields.Many2one('price.list', string='Price List', ondelete='cascade')
+    product_id = fields.Many2one('product.product', string='Product')
+    name = fields.Char(string='Description')
+    product_uom_qty = fields.Float(string='Quantity', default=1.0)
+    product_uom = fields.Many2one('uom.uom', string='UoM')
+    price_unit = fields.Float(string='Unit Price')
+    price_subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store=True)
+
+    @api.depends('product_uom_qty', 'price_unit')
+    def _compute_subtotal(self):
+        for line in self:
+            line.price_subtotal = line.product_uom_qty * line.price_unit
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'

@@ -43,3 +43,5 @@ access_technician,technician,model_technician,car_repair_industry.group_technici
 access_checklist_points,checklist_points,model_checklist_points,base.group_user,1,1,1,1
 access_workorder_timer_line,workorder_timer_line,model_workorder_timer_line,base.group_user,1,1,1,1
 access_pause_reason_wizard,pause_reason_wizard,model_pause_reason_wizard,base.group_user,1,1,1,1
+access_price_list_line,price_list_line,model_price_list_line,,1,1,1,1
+
