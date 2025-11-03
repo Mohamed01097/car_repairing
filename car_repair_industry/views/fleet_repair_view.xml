@@ -21,13 +21,13 @@
 
                         <div class="oe_button_box" name="button_box">
 
-                            <!--     start                       <button type="object"-->
-                            <!--                                    name="button_view_workorder"-->
-                            <!--                                    class="oe_stat_button"-->
-                            <!--                                    icon="fa-wrench"-->
-                            <!--                                    groups="base.group_user">-->
-                            <!--                                <field name="workorder_count" widget="statinfo" string="Work Order"/>-->
-                            <!--                            </button>-->
+                                                       <button type="object"
+                                                                name="button_view_workorder"
+                                                                class="oe_stat_button"
+                                                                icon="fa-wrench"
+                                                                groups="base.group_user">
+                                                            <field name="workorder_count" widget="statinfo" string="Work Order"/>
+                                                        </button>
 
 
                             <!--                            <button type="object"-->
@@ -104,7 +104,7 @@
                         <group string="Task Assignment">
                             <group>
                                 <field name="responsible_person" required="1"/>
-                                <field name="checklist_ids" widget="many2many_tags"/>
+                                <field name="checklist_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
                             </group>
                             <group>
                                 <field name="parking_slot" options="{'no_create': True, 'no_open': True}"/>
@@ -213,7 +213,7 @@
         <menuitem id="menu_main_car_repair" name="Car Customization" sequence="50"/>
         <menuitem name="Car Customization" parent="menu_main_car_repair" id="menu_sub_car_repair" sequence="3"/>
 
-        <menuitem name="Car Customization" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
+        <menuitem name="Car Customization Orders" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
                   action="action_fleet_repair_tree_view"/>
 
 

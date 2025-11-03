@@ -43,7 +43,7 @@ class SaleOrder(models.Model):
         for line in order.order_line:
             vals = {
                 'name': line.product_id.name,
-                'done': True,
+                'done': False,
             }
             order_checklist_ids.append((0, 0, vals))
         for line in order.fleet_repair_id.repair_checklist_ids:
@@ -66,6 +66,7 @@ class SaleOrder(models.Model):
             'state': 'draft',
             'user_id': order.user_id.id,
             'confirm_sale_order': True,
+            'checklist_ids': order.fleet_repair_id.checklist_ids,
             'order_checklist_ids': order_checklist_ids,
         }
         wo_id = self.env['fleet.workorder'].create(wo_vals)

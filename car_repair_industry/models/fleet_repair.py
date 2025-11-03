@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
-from email.policy import default
 
 from odoo import fields, models, api, _
 from datetime import date, time, datetime
 from odoo import tools
 from odoo.exceptions import UserError, ValidationError
-
+from odoo.tools import human_size
+import base64
 
 class FleetRepair(models.Model):
     _name = 'fleet.repair'
@@ -76,7 +76,7 @@ class FleetRepair(models.Model):
     child_ids = fields.One2many('fleet.repair', 'parent_id', string="Sub-Repair")
     before_image_ids = fields.One2many('maintenance.image', 'maintenance_id', string="Before Images")
     after_image_ids = fields.One2many('maintenance.image', 'maintenance_id', string="After Images")
-    repair_checklist_ids = fields.One2many('fleet.repair.checklist', 'repair_id',string='Repair Checklist')
+    repair_checklist_ids = fields.One2many('fleet.repair.checklist.repair','repair_id',string='Repair Checklist',compute='_compute_repair_checklist_ids')
     feedback_description = fields.Char(string="Feedback")
     rating = fields.Selection([('0','Low'), ('1','Normal'), ('2','High')], string="Rating")
     timesheet_ids = fields.One2many('account.analytic.line', 'repair_id', string="Timesheet")
@@ -89,6 +89,37 @@ class FleetRepair(models.Model):
     checklist_ids = fields.Many2many('fleet.repair.checklist', string='Checklist')
     notes = fields.Text()
     # start
+    api.depends('checklist_ids')
+
+    @api.depends('checklist_ids')
+    def _compute_repair_checklist_ids(self):
+        for rec in self:
+            if rec.checklist_ids:
+                # البحث عن النقاط المرتبطة بـ checklist_ids
+                checklist_points = self.env['checklist.points'].search([
+                    ('type_ids', 'in', rec.checklist_ids.ids)
+                ])
+
+                # إذا كانت repair_checklist_ids فارغة، نحتاج لإنشاء السجلات الجديدة
+                if not rec.repair_checklist_ids:
+                    created_checklists = self.env['fleet.repair.checklist.repair'].create([{
+                        'name': point.name,
+                        'description': '',  # أو تخصيصه بناءً على النقطة
+                        'done': False,
+                        'repair_id': rec.id,
+                    } for point in checklist_points])
+
+                    # ربط السجلات التي تم إنشاؤها بـ repair_checklist_ids باستخدام write
+                    rec.write({
+                        'repair_checklist_ids': [(6, 0, created_checklists.ids)]
+                    })
+                else:
+                    # إذا كانت repair_checklist_ids تحتوي على قيم، نقوم بتحديث السجلات الموجودة
+                    # في حالة تحديث أي من السجلات، استخدم هذه الطريقة فقط لإضافة عناصر جديدة
+                    rec.repair_checklist_ids = [(4, point.id) for point in checklist_points]
+            else:
+                # إذا كانت checklist_ids فارغة، نقوم بمسح السجلات الموجودة
+                rec.repair_checklist_ids = False  # أو [(5, 0, 0)] إذا كنت ترغب في مسح السجلات
 
     @api.constrains('fleet_repair_line')
     def check_line_count(self):
@@ -111,22 +142,24 @@ class FleetRepair(models.Model):
             task.subtask_planned_hours = sum(
                 child_task.planned_hours + child_task.subtask_planned_hours for child_task in task.child_ids)
 
-    @api.onchange('checklist_ids')
-    def onchange_checklist_ids(self):
-        for rec in self:
-            if rec.checklist_ids:
-                checklist_points = self.env['checklist.points'].search([
-                    ('type_ids', 'in', rec.checklist_ids.ids)
-                ])
-                rec.repair_checklist_ids = [(5, 0, 0)] + [
-                    (0, 0, {
-                        'name': point.name,
-                        'description': '',  # يمكن تهيئته من point لو عندك
-                        'done': False,
-                    }) for point in checklist_points
-                ]
-            else:
-                rec.repair_checklist_ids = [(5, 0, 0)]
+    # @api.onchange('checklist_ids')
+    # def onchange_checklist_ids(self):
+    #     for rec in self:
+    #         if rec.checklist_ids:
+    #             checklist_points = self.env['checklist.points'].search([
+    #                 ('type_ids', 'in', rec.checklist_ids.ids)
+    #             ])
+    #             rec.repair_checklist_ids = [(5, 0, 0)] + [
+    #                 (0, 0, {
+    #                     'name': point.name,
+    #                     'description': '',  # يمكن تهيئته من point لو عندك
+    #                     'done': False,
+    #                 }) for point in checklist_points
+    #             ]
+    #         else:
+    #             rec.repair_checklist_ids = False
+
+
     def select_all(self):
         for line in self.repair_checklist_ids:
             line.done = True
@@ -485,8 +518,7 @@ class FleetRepair(models.Model):
         self.sudo().write({'state': 'work_completed'})
         return True
 
-from odoo.tools import human_size
-import base64
+
 class ir_attachment(models.Model):
     _inherit='ir.attachment'
 
@@ -730,7 +762,7 @@ class ResPartner(models.Model):
             ('customer', 'Customer'),
             ('supplier', 'Supplier'),
             ('technician', 'Technician'),
-            ], 'Partner Type')
+            ], 'Partner Type',default='customer')
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -784,6 +816,15 @@ class Vehicle(models.Model):
 
 class FleetRepairChecklist(models.Model):
     _name = 'fleet.repair.checklist'
+    _description = "FLEET REPAIR Checklist"
+
+    name = fields.Char('Checklist Name')
+    active = fields.Boolean(default=True)
+    description = fields.Char(string="Description")
+    done = fields.Boolean(string="Done")
+
+class FleetRepairChecklistRepair(models.Model):
+    _name = 'fleet.repair.checklist.repair'
     _description = "FLEET REPAIR Checklist"
 
     name = fields.Char('Checklist Name')

@@ -19,7 +19,7 @@
                         <button name="button_resume" string="Resume" type="object" invisible="state != 'pause'"
                                 help="Resume Work Order"
                                 groups="car_repair_industry.group_fleet_repair_technician,car_repair_industry.group_fleet_repair_directeur_commercial"/>
-                        <button name="button_pause" string="Pending" type="object" invisible="state != 'startworking'"
+                        <button name="button_pause" string="Pause" type="object" invisible="state != 'startworking'"
                                 help="Pause Work Order"
                                 groups="car_repair_industry.group_fleet_repair_technician,car_repair_industry.group_fleet_repair_directeur_commercial"/>
                         <button name="action_done" string="Finished" type="object" invisible="state != 'startworking'"
@@ -122,7 +122,7 @@
                             </page>
                             <page string="Time Tracking">
                                 <field name="timer_line_ids" nolabel="1" readonly="1">
-                                    <list>
+                                    <list editable="bottom">
                                         <field name="action"/>
                                         <field name="reason"/>
                                         <field name="action_time"/>
@@ -202,7 +202,7 @@
                                     </form>
                                 </field>
                             </page>
-                            <page name="work_permit" string="Work Permit">
+                            <page name="work_permit" string="Work Permit" invisible="1">
                             </page>
                             <page name="checklist" string="Checklist">
                                 <group>

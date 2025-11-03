@@ -50,9 +50,9 @@
         <field name="model">fleet.workorder</field>
         <field name="inherit_id" ref="car_repair_industry.view_fleet_workorder_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
+            <xpath expr="//notebook/page[2]" position="after">
                 <!--                Chang Page Name Only + Add New One-->
-                <page string="Before Installation Images">
+                <page string="Before Installation">
                     <!--                    <field name="capture_ids" widget="one2many">-->
                     <!--                        <list create="false" edit="false" delete="true">-->
                     <!--                            <field name="name" readonly="1"/>-->
@@ -102,16 +102,15 @@
                     </field>
 
                 </page>
-                <!--                Second Page-->
-                <page string="After Installation Images">
+                <page name="work_permit" string="Work Permit">
                     <button
                             string="Capture"
-                            name="action_camera_capture_after"
+                            name="action_camera_capture_permit"
                             type="object"
                             class="btn-primary mb-2"
                             icon="fa-camera"/>
-                    <field name="after_capture_ids" mode="kanban">
-                        <kanban create="false">
+                    <field name="permit_capture_ids" mode="kanban">
+                        <kanban create="false" editable="false">
                             <templates>
                                 <t t-name="card" class="flex-row">
                                     <aside class="o_kanban_aside_full">
@@ -142,15 +141,15 @@
                     </field>
 
                 </page>
-                <page name="work_permit" string="Work Permit">
+                <page string="After Installation">
                     <button
                             string="Capture"
-                            name="action_camera_capture_permit"
+                            name="action_camera_capture_after"
                             type="object"
                             class="btn-primary mb-2"
                             icon="fa-camera"/>
-                    <field name="permit_capture_ids" mode="kanban">
-                        <kanban create="false" editable="false">
+                    <field name="after_capture_ids" mode="kanban">
+                        <kanban create="false">
                             <templates>
                                 <t t-name="card" class="flex-row">
                                     <aside class="o_kanban_aside_full">
