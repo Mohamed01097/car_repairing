@@ -570,8 +570,8 @@ class PriceList(models.Model):
     @api.onchange('sale_order_template_id')
     def _onchange_sale_order_template_id(self):
         """لو اختار قالب عرض سعر، انسخ منه السطور"""
+        self.order_line = [(5, 0, 0)]
         if not self.sale_order_template_id:
-            self.order_line = [(5, 0, 0)]  # clear
             return
 
         lines = []
@@ -596,7 +596,7 @@ class PriceListLine(models.Model):
     name = fields.Char(string='Description')
     product_uom_qty = fields.Float(string='Quantity', default=1.0)
     product_uom = fields.Many2one('uom.uom', string='UoM')
-    price_unit = fields.Float(string='Unit Price')
+    price_unit = fields.Float(string='Unit Price' ,related='product_id.lst_price')
     price_subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store=True)
 
     @api.depends('product_uom_qty', 'price_unit')
