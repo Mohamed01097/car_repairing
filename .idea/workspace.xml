@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88dab35c-e00d-4211-9cc7-59fc9819abe0" name="Changes" comment="work order camera">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car_repair_industry/models/fleet_repair.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/models/fleet_repair.py" afterDir="false" />
+    <list default="true" id="88dab35c-e00d-4211-9cc7-59fc9819abe0" name="Changes" comment="final">
+      <change beforePath="$PROJECT_DIR$/car_repair_industry/static/src/js/fleet_repair_dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/static/src/js/fleet_repair_dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car_repair_industry/static/src/xml/fleet_repair_dashboard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/static/src/xml/fleet_repair_dashboard.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car_repair_industry/views/custom_sale_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/views/custom_sale_view.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car_repair_industry/views/fleet_diagnose_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/views/fleet_diagnose_view.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car_repair_industry/views/fleet_repair_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/views/fleet_repair_view.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car_repair_industry/views/fleet_workorder_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/car_repair_industry/views/fleet_workorder_view.xml" afterDir="false" />
@@ -128,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762023129854</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="final">
+      <option name="closed" value="true" />
+      <created>1762638532288</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1762638532288</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -136,6 +145,7 @@
     <MESSAGE value="car repairing work order" />
     <MESSAGE value="image in tabs" />
     <MESSAGE value="work order camera" />
-    <option name="LAST_COMMIT_MESSAGE" value="work order camera" />
+    <MESSAGE value="final" />
+    <option name="LAST_COMMIT_MESSAGE" value="final" />
   </component>
 </project>

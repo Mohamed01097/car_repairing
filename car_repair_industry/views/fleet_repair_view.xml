@@ -109,8 +109,8 @@
                             <group>
                                 <field name="parking_slot" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="car_lift" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="fleet_id"/>
-                                <field name="license_plate"/>
+                                <field name="fleet_id" invisible="1"/>
+                                <field name="license_plate" invisible="1"/>
                             </group>
 
                         </group>
@@ -190,13 +190,13 @@
             <field name="name">fleet.repair.list.select</field>
             <field name="model">fleet.repair</field>
             <field name="arch" type="xml">
-                <search string="Search Repair Order">
+                <search string="Search Customization Order">
                     <field name="name"/>
                     <field name="client_phone"/>
                       <field name="client_id" operator="child_of"/>
                     <field name="license_plate"/>
                     <field name="sequence"/>
-                    <field name="name" string="Repair Order"/>
+                    <field name="name" string="Customization Order"/>
                     <field name="client_id" operator="child_of"/>
                     <field name="user_id"/>
                     <field name="fleet_id"/>

@@ -32,7 +32,7 @@
 							class="oe_stat_button repair"
 							icon="fa-truck"
 							invisible = "fleet_repair_count == 0" groups="base.group_user">
-							<field name="fleet_repair_count" widget="statinfo" string="Repair Order"/>
+							<field name="fleet_repair_count" widget="statinfo" string="Customization Order"/>
 						</button>
 				  
 						<button type="object"

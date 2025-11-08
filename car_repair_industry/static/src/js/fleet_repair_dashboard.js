@@ -58,21 +58,21 @@ export class FleetRepairDasboard extends Component{
         });
     }
 
-    clickAssignedtoTechnicians (ev) {
-        ev.preventDefault();
-        var targetElement = ev.currentTarget.querySelector('.AssignedtoTechnicians');
-        var domain = targetElement.dataset.domain;
-        this.action.doAction({
-            name: 'Assigned to Technicians',
-            res_model: 'fleet.diagnose',
-            res_id: false,
-            views: [[false, 'list'],[false, 'form']],
-            type: 'ir.actions.act_window',
-            domain: domain,
-        }, {
-            on_reverse_breadcrumb: this.on_reverse_breadcrumb
-        });
-    }
+//    clickAssignedtoTechnicians (ev) {
+//        ev.preventDefault();
+//        var targetElement = ev.currentTarget.querySelector('.AssignedtoTechnicians');
+//        var domain = targetElement.dataset.domain;
+//        this.action.doAction({
+//            name: 'Assigned to Technicians',
+//            res_model: 'fleet.diagnose',
+//            res_id: false,
+//            views: [[false, 'list'],[false, 'form']],
+//            type: 'ir.actions.act_window',
+//            domain: domain,
+//        }, {
+//            on_reverse_breadcrumb: this.on_reverse_breadcrumb
+//        });
+//    }
 
     clickCarDiagnosis (ev) {
         ev.preventDefault();
