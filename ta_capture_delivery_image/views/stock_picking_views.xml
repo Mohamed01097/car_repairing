@@ -102,15 +102,15 @@
                     </field>
 
                 </page>
-                <page name="work_permit" string="Work Permit">
+                                <page string="After Installation">
                     <button
                             string="Capture"
-                            name="action_camera_capture_permit"
+                            name="action_camera_capture_after"
                             type="object"
                             class="btn-primary mb-2"
                             icon="fa-camera"/>
-                    <field name="permit_capture_ids" mode="kanban">
-                        <kanban create="false" editable="false">
+                    <field name="after_capture_ids" mode="kanban">
+                        <kanban create="false">
                             <templates>
                                 <t t-name="card" class="flex-row">
                                     <aside class="o_kanban_aside_full">
@@ -141,15 +141,16 @@
                     </field>
 
                 </page>
-                <page string="After Installation">
+
+                <page name="work_permit" string="Work Permit">
                     <button
                             string="Capture"
-                            name="action_camera_capture_after"
+                            name="action_camera_capture_permit"
                             type="object"
                             class="btn-primary mb-2"
                             icon="fa-camera"/>
-                    <field name="after_capture_ids" mode="kanban">
-                        <kanban create="false">
+                    <field name="permit_capture_ids" mode="kanban">
+                        <kanban create="false" editable="false">
                             <templates>
                                 <t t-name="card" class="flex-row">
                                     <aside class="o_kanban_aside_full">

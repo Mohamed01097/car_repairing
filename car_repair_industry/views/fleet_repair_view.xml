@@ -95,7 +95,7 @@
                             <group>
                                 <field name="client_phone" readonly="state != 'draft'" required="1"
                                        string="Phone No(1)"/>
-                                <field name="client_mobile" readonly="state != 'draft'" string="Phone No(2)"/>
+                                <field name="client_mobile" readonly="state != 'draft'" string="Mobile"/>
                                 <field name="client_email" widget="email" readonly="state != 'draft'"/>
                                 <!--										<field name="phone"/>-->
                             </group>
@@ -216,7 +216,7 @@
         </record>
 
         <!--Menuitems-->
-        <menuitem id="menu_main_car_repair" name="Car Customization" sequence="50"/>
+        <menuitem id="menu_main_car_repair" name="Car Customization" sequence="50" action="car_repair_industry.ir_actions_car_repair_dashboard"/>
         <menuitem name="Orders" parent="menu_main_car_repair" id="menu_sub_car_repair" sequence="3"/>
 
         <menuitem name="Customization Orders" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
