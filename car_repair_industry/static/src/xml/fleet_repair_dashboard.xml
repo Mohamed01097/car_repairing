@@ -27,7 +27,7 @@
                             </div>
                             <div class="activity_block_right">
                                 <span class="a_name" t-esc="fleet_repair_count" /><br/>
-                                <div class="a_name" data-activity_type="Car Repair requests">Car Customization</div>
+                                <div class="a_name" data-activity_type="Car Repair requests">Customization Orders</div>
                             </div>
                         </div>
                     </a>
@@ -72,7 +72,7 @@
                     </a>
                 </div>
 
-                <h4 class="mt64 mb32 dashboard_data_h2 col-12">Other Details</h4>
+<!--                <h4 class="mt64 mb32 dashboard_data_h2 col-12">Other Details</h4>-->
                 <div class="col-md-3" t-on-click="clickWorkOrders">
                     <a class="WorkOrders" data-activity_type="Work Order" data-domain="[('state','=','workorder')]">
                         <div class="activity_block">
@@ -99,7 +99,7 @@
 <!--                        </div>-->
 <!--                    </a>-->
 <!--                </div>-->
-                <div class="col-md-3" t-on-click="clickPriceList">
+                <div class="col-md-3" t-on-click="clickPriceList" style="margin-top:60px">
                     <a class="a_name PriceList">
                         <div class="activity_block">
                             <div class="activity_block_left nth6">

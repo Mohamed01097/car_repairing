@@ -5,9 +5,9 @@
             <field name="name">fleet.repair.form</field>
             <field name="model">fleet.repair</field>
             <field name="arch" type="xml">
-                <form string="Car Repair">
+                <form string="Car Customization">
                     <header>
-                        <button name="action_create_fleet_diagnosis" string="Create Car Customization"
+                        <button name="action_create_fleet_diagnosis" string="Create Customization Order"
                                 invisible="state != 'draft'" type="object" class="oe_highlight" style="float:left;"
                                 groups="car_repair_industry.group_fleet_repair_service_manager,car_repair_industry.group_fleet_repair_directeur_commercial"/>
 
@@ -17,7 +17,7 @@
                                 type="object" style="float:left;"/>
                         <!--start-->
                     </header>
-                    <sheet string="Car Repair">
+                    <sheet string="Car Customization">
 
                         <div class="oe_button_box" name="button_box">
 
@@ -109,6 +109,8 @@
                             <group>
                                 <field name="parking_slot" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="car_lift" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="fleet_id"/>
+                                <field name="license_plate"/>
                             </group>
 
                         </group>
@@ -124,19 +126,19 @@
                             </list>
                         </field>
                         <notebook>
-                            <page name="checklist" string="Checklist">
-                                <group>
-                                    <field name="repair_checklist_ids" options="{'no_create': True}" nolabel="1"
-                                           colspan="2">
-                                        <list editable="bottom">
-                                            <field name="name"/>
-                                            <field name="description"/>
-                                            <field name="done"/>
-                                        </list>
-                                    </field>
-                                </group>
-                                <button name="select_all" string="Select All" type="object" class="oe_highlight"/>
-                            </page>
+<!--                            <page name="checklist" string="Checklist">-->
+<!--                                <group>-->
+<!--                                    <field name="repair_checklist_ids" options="{'no_create': True}" nolabel="1"-->
+<!--                                           colspan="2">-->
+<!--                                        <list editable="bottom">-->
+<!--                                            <field name="name"/>-->
+<!--                                            <field name="description"/>-->
+<!--                                            <field name="done"/>-->
+<!--                                        </list>-->
+<!--                                    </field>-->
+<!--                                </group>-->
+<!--                                <button name="select_all" string="Select All" type="object" class="oe_highlight"/>-->
+<!--                            </page>-->
                             <!--                            <page name="review_and_rating" string="Review and Ratings">-->
                             <!--                                <group>-->
                             <!--                                    <field name="feedback_description"/>-->
@@ -173,10 +175,10 @@
             <field name="model">fleet.repair</field>
             <field name="priority">4</field>
             <field name="arch" type="xml">
-                <list string="Car Repair">
+                <list string="Car Customization">
                     <field name="name" string="Subject"/>
                     <field name="client_id"/>
-                    <field name="phone"/>
+                    <field name="client_phone" string="Phone Number"/>
                     <field name="receipt_date"/>
                     <field name="user_id"/>
                 </list>
@@ -189,6 +191,10 @@
             <field name="model">fleet.repair</field>
             <field name="arch" type="xml">
                 <search string="Search Repair Order">
+                    <field name="name"/>
+                    <field name="client_phone"/>
+                      <field name="client_id" operator="child_of"/>
+                    <field name="license_plate"/>
                     <field name="sequence"/>
                     <field name="name" string="Repair Order"/>
                     <field name="client_id" operator="child_of"/>
@@ -201,7 +207,7 @@
 
         <!--Action-->
         <record model="ir.actions.act_window" id="action_fleet_repair_tree_view">
-            <field name="name">Car Repair</field>
+            <field name="name">Car Customization</field>
             <field name="res_model">fleet.repair</field>
 
             <field name="view_mode">list,form</field>
@@ -211,9 +217,9 @@
 
         <!--Menuitems-->
         <menuitem id="menu_main_car_repair" name="Car Customization" sequence="50"/>
-        <menuitem name="Car Customization" parent="menu_main_car_repair" id="menu_sub_car_repair" sequence="3"/>
+        <menuitem name="Orders" parent="menu_main_car_repair" id="menu_sub_car_repair" sequence="3"/>
 
-        <menuitem name="Car Customization Orders" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
+        <menuitem name="Customization Orders" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
                   action="action_fleet_repair_tree_view"/>
 
 
@@ -421,12 +427,12 @@
         <menuitem name="Price List" parent="car_repair_industry.menu_main_car_repair" id="menu_price_list" sequence="15"
                   action="action_price_list"/>
         <menuitem name="Parking Slot" parent="car_repair_industry.menu_configuration" id="menu_parking_slot"
-                  sequence="15"
+                  sequence="0"
                   action="action_parking_slot"/>
-        <menuitem name="Car Lift" parent="car_repair_industry.menu_configuration" id="menu_car_lift" sequence="15"
+        <menuitem name="Car Lift" parent="car_repair_industry.menu_configuration" id="menu_car_lift" sequence="1"
                   action="action_car_lift"/>
         <menuitem name="Checklist Points" parent="car_repair_industry.menu_configuration" id="menu_checklist_points"
-                  sequence="15"
+                  sequence="4"
                   action="action_checklist_points"/>
         <!-- fleet Lines-->
 

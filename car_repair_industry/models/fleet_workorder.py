@@ -37,9 +37,16 @@ class FleetWorkOrder(models.Model):
              "* When order is completely processed that time it is set in 'Finished' status.")
     timer_line_ids = fields.One2many('workorder.timer.line', 'workorder_id', string='Timer Lines')
     phone = fields.Char(string='Phone')
-    fleet_id = fields.Many2one('fleet.vehicle', 'Fleet')
+    fleet_id = fields.Many2one('fleet.vehicle', 'Fleet',)
+    # @api.onchange('fleet_repair_line.fleet_id')
+    # def _compute_fleet_id(self):
+    #     for record in self:
+    #         print("jjjjjjjjjjjjjjjjjjjjjjj",record.fleet_repair_line.fleet_id)
+    #         record.fleet_repair_line.fleet_id = record.fleet_id
     license_plate = fields.Char('License Plate',
-                                help='License plate number of the vehicle (ie: plate number for a car)')
+                                help='License plate number of the vehicle (ie: plate number for a car)',
+                                # related="feet_id.license_plate"
+                                )
     vin_sn = fields.Char('Chassis Number', help='Unique number written on the vehicle motor (VIN/SN number)')
     model_id = fields.Many2one('fleet.vehicle.model', 'Model', help='Model of the vehicle')
     fuel_type = fields.Selection([('diesel', 'Diesel'),
@@ -254,6 +261,10 @@ class FleetWorkOrder(models.Model):
                 ]
             else:
                 rec.repair_checklist_ids = [(5, 0, 0)]
+
+
+
+
 class FleetRepairImageLine(models.Model):
     _name = 'fleet.repair.image.line'
     _description = 'Repair Image Line'
@@ -305,3 +316,8 @@ class FleetRepairChecklist(models.Model):
     description = fields.Char(string="Description")
     done = fields.Boolean(string="Done")
     workorder_id = fields.Many2one('fleet.workorder', string="Checklist",ondelete='cascade')
+
+class FleetVehicleModel(models.Model):
+    _inherit = 'fleet.vehicle.model'
+
+    default_fuel_type = fields.Selection(default='gasoline')

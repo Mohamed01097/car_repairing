@@ -16,7 +16,7 @@ class FleetRepair(models.Model):
 
     name = fields.Char(string='Subject', required=True)
     sequence = fields.Char(string='Sequence', readonly=True ,copy =False)
-    client_id = fields.Many2one('res.partner', string='Client', required=True, tracking=True,domain="[('partner_type', '=', 'supplier')]")
+    client_id = fields.Many2one('res.partner', string='Client', required=True, tracking=True,domain="[('partner_type', '=', 'customer')]")
     client_phone = fields.Char(string='Phone')
     client_mobile = fields.Char(string='Mobile')
     client_email = fields.Char(string='Email')

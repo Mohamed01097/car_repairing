@@ -3,12 +3,12 @@
 
     <!-- Fleet Repair Dashboard -->
     <record id="fleet_repair_dashboard" model="ir.actions.client">
-        <field name="name">Car Repair Dashboard</field>
+        <field name="name">Car Customization Dashboard</field>
         <field name="tag">fleet_repair_dashboard</field>
     </record>
 
     <record id="ir_actions_car_repair_dashboard" model="ir.actions.server">
-        <field name="name">Car Repair: DashboardB</field>
+        <field name="name">Car Customization: Dashboard</field>
         <field name="model_id" ref="car_repair_industry.model_fleet_repair" />
         <field name="state">code</field>
         <field name="type">ir.actions.server</field>
@@ -17,7 +17,7 @@
     </record>
 
     <record id="action_fleet_repair_dashboard" model="ir.actions.act_url">
-        <field name="name">Car Repair</field>
+        <field name="name">Car Customization</field>
         <field name="url">/</field>
         <field name="target">self</field>
     </record>

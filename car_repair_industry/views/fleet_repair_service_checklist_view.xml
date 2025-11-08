@@ -81,6 +81,6 @@
                 action="checklist_action_view_tree"
                 name="Checklists"
                parent="car_repair_industry.menu_configuration"
-                sequence="17"/>
+                sequence="3"/>
     </data>
 </odoo>
