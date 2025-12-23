@@ -2,7 +2,7 @@
 <odoo>
 	<data noupdate="0">
 		<record id="car_repair_service_done" model="mail.template">
-            <field name="name">Car Repair - Send by Email</field>
+            <field name="name">Car Customization - Send by Email</field>
             <field name="email_from">{{user.email_formatted}}</field>
             <field name="subject">{{object.name}} (Ref {{object.sequence or 'n/a' }})</field>
             <field name="email_to">{{object.client_id.email}}</field>
@@ -11,7 +11,7 @@
 				<p>Dear <t t-out="object.client_id.name"></t>
 				,</p>
 				<p>
-				We have closed your car repair request now.
+				We have closed your car customization request now.
 				</p><br/>
 				<a t-attf-href="/feedback/form/{{ object.id }}" role="button" class="btn btn-primary btn-md">Please Give Your Feedback</a>
 				<p>

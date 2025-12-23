@@ -3,7 +3,7 @@
 <odoo>
 	<data>
 		<!-- <record id="fleet_repair_checklist_paperformat" model="report.paperformat">
-			<field name="name">Car Repair Checklist A4</field>
+			<field name="name">Car Customization Checklist A4</field>
 			<field name="default" eval="True" />
 			<field name="format">A4</field>
 			<field name="page_height">0</field>

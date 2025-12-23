@@ -51,10 +51,10 @@
 <!--                sequence="78"/>-->
 
 
-       <menuitem name="Meeting Slots"
-        		action="action_appointment_slots"
-        		id="menu_slots"
-        		 parent="car_repair_industry.menu_configuration"
-                sequence="18"/>
+<!--       <menuitem name="Meeting Slots"-->
+<!--        		action="action_appointment_slots"-->
+<!--        		id="menu_slots"-->
+<!--        		 parent="car_repair_industry.menu_configuration"-->
+<!--                sequence="18"/>-->
   </data>
 </odoo>

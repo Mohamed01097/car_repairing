@@ -461,7 +461,7 @@ class FleetRepair(models.Model):
         for order in repair_order_ids:
             list.append(order.id)
         return {
-            'name': _('Car Repair'),
+            'name': _('Car Customization'),
             'view_type': 'form',
             'view_mode': 'list,form',
             'res_model': 'fleet.repair',
@@ -531,7 +531,7 @@ class FleetRepair(models.Model):
 class ir_attachment(models.Model):
     _inherit = 'ir.attachment'
 
-    car_repair_id = fields.Many2one('fleet.repair', 'Car Repair')
+    car_repair_id = fields.Many2one('fleet.repair', 'Car Customization')
     image2 = fields.Binary(string='File Content (base64)', compute='_compute_datas', inverse='_inverse_datas')
     image3 = fields.Binary(string='File Content (base64)', compute='_compute_datas', inverse='_inverse_datas')
 

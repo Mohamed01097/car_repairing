@@ -144,7 +144,7 @@ msgid ""
 "<p>Dear <t t-out=\"object.client_id.name\"></t>\n"
 "\t\t\t\t,</p>\n"
 "\t\t\t\t<p>\n"
-"\t\t\t\tWe have closed your car repair request now.\n"
+"\t\t\t\tWe have closed your Car Customization request now.\n"
 "\t\t\t\t</p><br>\n"
 "\t\t\t\t<a t-attf-href=\"/feedback/form/{{ object.id }}\" role=\"button\" class=\"btn "
 "btn-primary btn-md\">Please Give Your Feedback</a>\n"
@@ -673,39 +673,39 @@ msgstr "Reparación de autos"
 
 #. module: car_repair_industry
 #: model:mail.template,name:car_repair_industry.car_repair_service_done
-msgid "Car Repair - Send by Email"
+msgid "Car Customization - Send by Email"
 msgstr "Reparación de automóviles - Enviar por correo electrónico"
 
 #. module: car_repair_industry
 #: model:ir.actions.report,name:car_repair_industry.fleet_repair_checklist_id
-msgid "Car Repair Checklist"
+msgid "Car Customization Checklist"
 msgstr "Lista de verificación de reparación de automóviles"
 
 #. module: car_repair_industry
 #: model:ir.actions.client,name:car_repair_industry.fleet_repair_dashboard
-msgid "Car Repair Dashboard"
+msgid "Car Customization Dashboard"
 msgstr "Panel de reparación de automóviles"
 
 #. module: car_repair_industry
 #. odoo-javascript
 #: code:addons/car_repair_industry/static/src/xml/fleet_repair_dashboard.xml:0
 #, python-format
-msgid "Car Repair Details"
+msgid "Car Customization Details"
 msgstr "Detalles de reparación de automóviles"
 
 #. module: car_repair_industry
 #: model:ir.actions.report,name:car_repair_industry.fleet_repair_label_id
-msgid "Car Repair Label"
+msgid "Car Customization Label"
 msgstr "Etiqueta de reparación de automóviles"
 
 #. module: car_repair_industry
 #: model:ir.actions.report,name:car_repair_industry.fleet_repair_receipt_id
-msgid "Car Repair Receipt"
+msgid "Car Customization Receipt"
 msgstr "Recibo de reparación de automóviles"
 
 #. module: car_repair_industry
 #: model:ir.actions.server,name:car_repair_industry.ir_actions_car_repair_dashboard
-msgid "Car Repair: Dashboard"
+msgid "Car Customization: Dashboard"
 msgstr "Reparación de automóviles: tablero de instrumentos"
 
 #. module: car_repair_industry
@@ -1238,7 +1238,7 @@ msgstr "Técnico principal"
 
 #. module: car_repair_industry
 #: model:ir.module.category,description:car_repair_industry.module_category_fleet_repair
-msgid "Helps you manage your Car Repairing."
+msgid "Helps you manage your Car Customizationing."
 msgstr "Le ayuda a gestionar la reparación de su automóvil."
 
 #. module: car_repair_industry

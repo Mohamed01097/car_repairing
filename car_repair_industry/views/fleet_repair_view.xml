@@ -431,9 +431,9 @@
         <!--        <menuitem name="Service Type" parent="menu_sub_car_repair" id="menu_service_type" sequence="11"-->
         <!--                  action="action_service_type"/>-->
 
-        <menuitem name="Service Type" parent="car_repair_industry.menu_configuration" id="menu_service_type"
-                  sequence="16"
-                  action="action_service_type"/>
+<!--        <menuitem name="Service Type" parent="car_repair_industry.menu_configuration" id="menu_service_type"-->
+<!--                  sequence="16"-->
+<!--                  action="action_service_type"/>-->
         <menuitem name="Price List" parent="car_repair_industry.menu_main_car_repair" id="menu_price_list" sequence="15"
                   action="sale.action_quotations_with_onboarding"/>
         <menuitem name="Parking Slot" parent="car_repair_industry.menu_configuration" id="menu_parking_slot"

@@ -395,12 +395,12 @@ msgstr "Réparation automobile"
 
 #. module: car_repair_industry
 #: model:ir.actions.report,name:car_repair_industry.fleet_repair_label_id
-msgid "Car Repair Label"
+msgid "Car Customization Label"
 msgstr "Étiquette de réparation de voiture"
 
 #. module: car_repair_industry
 #: model:ir.actions.report,name:car_repair_industry.fleet_repair_receipt_id
-msgid "Car Repair Receipt"
+msgid "Car Customization Receipt"
 msgstr "Reçu de réparation de voiture"
 
 #. module: car_repair_industry
@@ -817,7 +817,7 @@ msgstr "Technicien en chef"
 
 #. module: car_repair_industry
 #: model:ir.module.category,description:car_repair_industry.module_category_fleet_repair
-msgid "Helps you manage your Car Repairing."
+msgid "Helps you manage your Car Customizationing."
 msgstr "Vous aide à gérer votre réparation automobile."
 
 #. module: car_repair_industry

@@ -47,7 +47,7 @@ export class FleetRepairDasboard extends Component{
         var targetElement = ev.currentTarget.querySelector('.CarRepairList');
         var domain = targetElement.dataset.domain;
         this.action.doAction({
-            name: 'Car Repair',
+            name: 'Car Customization',
             res_model: 'fleet.repair',
             res_id: false,
             views: [[false, 'list'],[false, 'form']],

@@ -68,7 +68,7 @@ class FleetWorkOrder(models.Model):
     est_ser_hour = fields.Float(string='Estimated Sevice Hours')
     service_product_id = fields.Many2one('product.product', string='Service Product')
     service_product_price = fields.Integer('Service Product Price')
-    fleet_repair_id = fields.Many2one('fleet.repair', string='Car Repair', copy=False, readonly=True)
+    fleet_repair_id = fields.Many2one('fleet.repair', string='Car Customization', copy=False, readonly=True)
     diagnose_id = fields.Many2one('fleet.diagnose', string='Car Diagnosis', copy=False, readonly=True)
     sale_order_id = fields.Many2one('sale.order', string='Sales Order', copy=False, readonly=True)
     spare_part_ids = fields.One2many('spare.part.line', 'workorder_id', string='Spare Parts')
@@ -116,7 +116,7 @@ class FleetWorkOrder(models.Model):
         for order in repair_order_ids:
             list.append(order.id)
         return {
-            'name': _('Car Repair'),
+            'name': _('Car Customization'),
             'view_type': 'form',
             'view_mode': 'list,form',
             'res_model': 'fleet.repair',

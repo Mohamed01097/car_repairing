@@ -105,7 +105,7 @@ class FleetDiagnose(models.Model):
 		for order in repair_order_ids:
 			list.append(order.id)
 		return {
-			'name': _('Car Repair'),
+			'name': _('Car Customization'),
 			'view_type': 'form',
 			'view_mode': 'list,form',
 			'res_model': 'fleet.repair',

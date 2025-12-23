@@ -28,7 +28,7 @@
                             <div class="activity_block_right">
                                 <span class="a_name" t-esc="fleet_repair_count"/>
                                 <br/>
-                                <div class="a_name" data-activity_type="Car Repair requests">Customization Orders</div>
+                                <div class="a_name" data-activity_type="Car Customization requests">Customization Orders</div>
                             </div>
                         </div>
                     </a>
