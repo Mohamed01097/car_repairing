@@ -5,7 +5,7 @@
             <field name="name">fleet.workorder.form</field>
             <field name="model">fleet.workorder</field>
             <field name="arch" type="xml">
-                <form string="Work Orders" version="9.0">
+                <form string="Work Orders" version="9.0" create="0">
                     <header colspan="8">
                         <button name="action_start_working" string="Start" type="object" invisible="state != 'draft'"
                                 help="Start Working"
@@ -199,9 +199,9 @@
                                 <group>
                                     <field name="order_checklist_ids" options="{'no_create': True}" nolabel="1"
                                            colspan="2">
-                                        <list editable="bottom" delete="0" create="0" edit="0">
-                                            <field name="name"/>
-                                            <field name="description"/>
+                                        <list editable="bottom" delete="0" create="0">
+                                            <field name="name" readonly="1"/>
+                                            <field name="description" readonly="1"/>
                                             <field name="done"/>
                                         </list>
                                     </field>
@@ -255,7 +255,7 @@
             <field name="model">fleet.workorder</field>
             <field name="priority">4</field>
             <field name="arch" type="xml">
-                <list string="Work Orders">
+                <list string="Work Orders" create="0">
                     <field name="name" string="Work Order"/>
                     <field name="phone"/>
                     <field name="user_id"/>

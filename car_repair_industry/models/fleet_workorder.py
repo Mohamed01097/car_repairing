@@ -308,7 +308,7 @@ class ChecklistPoints(models.Model):
     _name = 'checklist.points'
     _description = "Checklist Points"
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name',required=True)
     type_ids = fields.Many2many('fleet.repair.checklist')
     _sql_constraints = [
         ('unique_name', 'unique (name)', "This name is already exist")

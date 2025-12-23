@@ -128,7 +128,7 @@ class Appointment(http.Controller):
         fleet_repair_d = request.env['fleet.repair'].sudo().search([('state', '=', 'done')])
         fleet_workorder = request.env['fleet.workorder'].sudo().search([])
         fleet_service_type = request.env['service.type'].sudo().search([])
-        fleet_price_list = request.env['price.list'].sudo().search([])
+        fleet_price_list = request.env['sale.order'].sudo().search([])
         fleet_deleted_order = request.env['fleet.workorder'].sudo().search([('state', '=', 'deleted')])
         dashboard_data = {
             'fleet_repair_count': len(fleet_repair),

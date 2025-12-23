@@ -142,78 +142,8 @@ class FleetRepair(models.Model):
         for vals in vals_list:
             vals['sequence'] = self.env['ir.sequence'].next_by_code('fleet.repair') or 'New'
             result = super(FleetRepair, self).create(vals)
-            result._send_top_notification()
-            result._create_repair_activity()
 
             return result
-
-    def _send_top_notification(self):
-        """
-        Send top-bar notification (bell icon) to a specific user
-        """
-
-        partner = self.responsible_person
-        if not partner:
-            return
-
-        user = self.env['res.users'].search([
-            ('partner_id', '=', partner.id),
-            ('active', '=', True)
-        ], limit=1)
-
-        if not user:
-            return
-
-        # 🔔 Notification فوق (Odoo 18)
-        self.env['bus.bus']._sendone(
-            user.partner_id,
-            'simple_notification',
-            {
-                'title': _('Fleet Repair'),
-                'message': _(
-                    'A new fleet repair request has been created.\n'
-                    'Reference: %s'
-                ) % self.sequence,
-                'sticky': True,  # True = تفضل ظاهرة
-                'warning': False,  # True = لون أحمر
-            }
-        )
-
-    def _create_repair_activity(self):
-        """
-        Create activity visible in top activity icon (Odoo 18)
-        """
-
-        self.ensure_one()
-
-        # 🔹 البارتنر / اليوزر المستهدف
-        partner = self.responsible_person
-        if not partner:
-            return
-
-        user = self.env['res.users'].search([
-            ('partner_id', '=', partner.id),
-            ('active', '=', True)
-        ], limit=1)
-
-        if not user:
-            return
-
-        # 🔹 Activity Type (To Do)
-        activity_type = self.env.ref('mail.mail_activity_data_todo')
-
-        self.env['mail.activity'].create({
-            'res_model_id': self.env['ir.model']._get_id(self._name),
-            'res_id': self.id,
-            'activity_type_id': activity_type.id,
-            'user_id': user.id,
-            'summary': _('Fleet Repair Created'),
-            'note': _(
-                'A new fleet repair request has been created.\n'
-                'Reference: %s'
-                ) % self.sequence,
-            'date_deadline': fields.Date.today(),
-            })
 
     @api.depends('child_ids.planned_hours')
     def _compute_subtask_planned_hours(self):
@@ -627,78 +557,16 @@ class ServiceType(models.Model):
     _name = 'service.type'
     _description = "Service Type"
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name',required=True)
 
 
-class PriceList(models.Model):
-    _name = 'price.list'
-    _description = "Service Type"
-
-    customer_id = fields.Many2one('res.partner', string='Customer', required=True)
-    sale_order_template_id = fields.Many2one('sale.order.template', string='Sale Order Template')
-    order_line = fields.One2many('price.list.line', 'price_list_id', string='Order Lines')
-
-    date = fields.Date(string="Date", default=fields.Date.today)
-    total_amount = fields.Float(string="Total", compute="_compute_total", store=True)
-    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
-
-    @api.depends('order_line.price_subtotal')
-    def _compute_total(self):
-        for rec in self:
-            rec.total_amount = sum(line.price_subtotal for line in rec.order_line)
-
-    @api.onchange('sale_order_template_id')
-    def _onchange_sale_order_template_id(self):
-        """لو اختار قالب عرض سعر، انسخ منه السطور"""
-        self.order_line = [(5, 0, 0)]
-        if not self.sale_order_template_id:
-            return
-
-        lines = []
-        for tmpl_line in self.sale_order_template_id.sale_order_template_line_ids:
-            lines.append((0, 0, {
-                'product_id': tmpl_line.product_id.id,
-                'name': tmpl_line.name or tmpl_line.product_id.name,
-                'product_uom_qty': tmpl_line.product_uom_qty,
-                'product_uom': tmpl_line.product_uom_id.id,
-                'price_unit': tmpl_line.product_id.list_price,
-                'price_subtotal': tmpl_line.product_id.list_price * tmpl_line.product_uom_qty,
-                # 'order_id': 1,
-                'price_list_id': self.id,
-            }))
-        self.order_line = lines
-
-
-class PriceListLine(models.Model):
-    _name = 'price.list.line'
-    _description = "Price List Line"
-
-    price_list_id = fields.Many2one('price.list', string='Price List', ondelete='cascade')
-    product_id = fields.Many2one('product.product', string='Product')
-    name = fields.Char(string='Description')
-    product_uom_qty = fields.Float(string='Quantity', default=1.0)
-    product_uom = fields.Many2one('uom.uom', string='UoM')
-    price_unit = fields.Float(string='Unit Price', related='product_id.lst_price')
-    price_subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store=True)
-
-    @api.depends('product_uom_qty', 'price_unit')
-    def _compute_subtotal(self):
-        for line in self:
-            line.price_subtotal = line.product_uom_qty * line.price_unit
-
-
-class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
-    _description = 'Sale Order Line'
-
-    price_list_id = fields.Many2one('price.list', string='Order')
 
 
 class ParkingSlot(models.Model):
     _name = 'parking.slot'
     _description = "Parking Slot"
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name',required=True)
     description = fields.Text(string='Description')
     activate = fields.Boolean(string='Active', default=True)
     _sql_constraints = [
@@ -710,7 +578,7 @@ class CarLift(models.Model):
     _name = 'car.lift'
     _description = "Car Lift"
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name',required=True)
     description = fields.Text(string='Description')
     activate = fields.Boolean(string='Active', default=True)
     _sql_constraints = [
@@ -849,7 +717,7 @@ class Technician(models.Model):
     _name = 'technician'
     _description = 'Technician'
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name',required=True)
     description = fields.Text(string='Description')
 
 
@@ -914,7 +782,7 @@ class FleetRepairChecklist(models.Model):
     _name = 'fleet.repair.checklist'
     _description = "FLEET REPAIR Checklist"
 
-    name = fields.Char('Checklist Name')
+    name = fields.Char('Checklist Name',required=True)
     active = fields.Boolean(default=True)
     description = fields.Char(string="Description")
     done = fields.Boolean(string="Done")
@@ -932,3 +800,68 @@ class FleetRepairChecklistRepair(models.Model):
     description = fields.Char(string="Description")
     done = fields.Boolean(string="Done")
     repair_id = fields.Many2one('fleet.repair', string="Checklist", ondelete='cascade')
+
+
+
+# class PriceList(models.Model):
+#     _name = 'price.list'
+#     _description = "Service Type"
+#
+#     customer_id = fields.Many2one('res.partner', string='Customer', required=True)
+#     sale_order_template_id = fields.Many2one('sale.order.template', string='Sale Order Template')
+#     order_line = fields.One2many('price.list.line', 'price_list_id', string='Order Lines')
+#
+#     date = fields.Date(string="Date", default=fields.Date.today)
+#     total_amount = fields.Float(string="Total", compute="_compute_total", store=True)
+#     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
+#
+#     @api.depends('order_line.price_subtotal')
+#     def _compute_total(self):
+#         for rec in self:
+#             rec.total_amount = sum(line.price_subtotal for line in rec.order_line)
+#
+#     @api.onchange('sale_order_template_id')
+#     def _onchange_sale_order_template_id(self):
+#         """لو اختار قالب عرض سعر، انسخ منه السطور"""
+#         self.order_line = [(5, 0, 0)]
+#         if not self.sale_order_template_id:
+#             return
+#
+#         lines = []
+#         for tmpl_line in self.sale_order_template_id.sale_order_template_line_ids:
+#             lines.append((0, 0, {
+#                 'product_id': tmpl_line.product_id.id,
+#                 'name': tmpl_line.name or tmpl_line.product_id.name,
+#                 'product_uom_qty': tmpl_line.product_uom_qty,
+#                 'product_uom': tmpl_line.product_uom_id.id,
+#                 'price_unit': tmpl_line.product_id.list_price,
+#                 'price_subtotal': tmpl_line.product_id.list_price * tmpl_line.product_uom_qty,
+#                 # 'order_id': 1,
+#                 'price_list_id': self.id,
+#             }))
+#         self.order_line = lines
+#
+#
+# class PriceListLine(models.Model):
+#     _name = 'price.list.line'
+#     _description = "Price List Line"
+#
+#     price_list_id = fields.Many2one('price.list', string='Price List', ondelete='cascade')
+#     product_id = fields.Many2one('product.product', string='Product')
+#     name = fields.Char(string='Description')
+#     product_uom_qty = fields.Float(string='Quantity', default=1.0)
+#     product_uom = fields.Many2one('uom.uom', string='UoM')
+#     price_unit = fields.Float(string='Unit Price', related='product_id.lst_price')
+#     price_subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal', store=True)
+#
+#     @api.depends('product_uom_qty', 'price_unit')
+#     def _compute_subtotal(self):
+#         for line in self:
+#             line.price_subtotal = line.product_uom_qty * line.price_unit
+#
+#
+# class SaleOrderLine(models.Model):
+#     _inherit = 'sale.order.line'
+#     _description = 'Sale Order Line'
+#
+#     price_list_id = fields.Many2one('price.list', string='Order')

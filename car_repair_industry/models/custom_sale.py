@@ -69,23 +69,91 @@ class SaleOrder(models.Model):
             'checklist_ids': order.fleet_repair_id.checklist_ids,
             'order_checklist_ids': order_checklist_ids,
         }
-        wo_id = self.env['fleet.workorder'].create(wo_vals)
-        for line in order.fleet_repair_id.fleet_repair_line:
-            fleet_line_vals = {
-                'workorder_id': wo_id,
-            }
-            line.write({'workorder_id': wo_id.id})
-            fleet_line_obj.write({'fleet_repair_line': line.id})
-
         if order.fleet_repair_id:
+            wo_id = self.env['fleet.workorder'].create(wo_vals)
+            self._send_top_notification(wo_id.responsible_person,wo_id.name)
+            self._create_repair_activity(wo_id.responsible_person,wo_id.name)
+            for line in order.fleet_repair_id.fleet_repair_line:
+                fleet_line_vals = {
+                    'workorder_id': wo_id,
+                }
+                line.write({'workorder_id': wo_id.id})
+                fleet_line_obj.write({'fleet_repair_line': line.id})
             repair_id = order.fleet_repair_id.id
             browse_record = self.env['fleet.repair'].browse(repair_id)
             browse_record.state = 'saleorder'
             browse_record.workorder_id = wo_id.id
             browse_record.confirm_sale_order = True
-        self.write({'workorder_id': wo_id.id, 'fleet_repair_id': order.fleet_repair_id.id,
-                    'is_workorder_created': True})
+            self.write({'workorder_id': wo_id.id, 'fleet_repair_id': order.fleet_repair_id.id,
+                        'is_workorder_created': True})
+
         return res
+
+    def _send_top_notification(self,partner,sequence):
+        """
+        Send top-bar notification (bell icon) to a specific user
+        """
+
+        if not partner:
+            return
+
+        user = self.env['res.users'].search([
+            ('partner_id', '=', partner.id),
+            ('active', '=', True)
+        ], limit=1)
+
+        if not user:
+            return
+
+        # 🔔 Notification فوق (Odoo 18)
+        self.env['bus.bus']._sendone(
+            user.partner_id,
+            'simple_notification',
+            {
+                'title': _('Work Order'),
+                'message': _(
+                    'A new work order request has been created.\n'
+                    'Reference: %s'
+                ) % sequence,
+                'sticky': True,  # True = تفضل ظاهرة
+                'warning': False,  # True = لون أحمر
+            }
+        )
+
+    def _create_repair_activity(self,partner,sequence):
+        """
+        Create activity visible in top activity icon (Odoo 18)
+        """
+
+        self.ensure_one()
+
+        # 🔹 البارتنر / اليوزر المستهدف
+        if not partner:
+            return
+
+        user = self.env['res.users'].search([
+            ('partner_id', '=', partner.id),
+            ('active', '=', True)
+        ], limit=1)
+
+        if not user:
+            return
+
+        # 🔹 Activity Type (To Do)
+        activity_type = self.env.ref('mail.mail_activity_data_todo')
+
+        self.env['mail.activity'].create({
+            'res_model_id': self.env['ir.model']._get_id(self._name),
+            'res_id': self.id,
+            'activity_type_id': activity_type.id,
+            'user_id': user.id,
+            'summary': _('Fleet Repair Created'),
+            'note': _(
+                'A new work order has been created.\n'
+                'Reference: %s'
+                ) % sequence,
+            'date_deadline': fields.Date.today(),
+            })
     def button_view_repair(self):
         list = []
         context = dict(self._context or {})

@@ -35,7 +35,6 @@ access_appointement_slots,access_appointement_slots,model_appointement_slots,bas
 access_slots,access_slots,model_slots,base.group_user,1,1,1,1
 access_fleet_repair,fleet_repair,model_fleet_repair,base.group_user,1,1,1,1
 access_account_analytic_line_user,analytic.account.analytic.line.timesheet.user,analytic.model_account_analytic_line,hr_timesheet.group_hr_timesheet_user,1,1,1,1
-access_price_list,price_list,model_price_list,base.group_user,1,1,1,1
 access_maintenance_image,maintenance.image,model_maintenance_image,base.group_user,1,1,1,1
 access_parking_slot,parking_slot,model_parking_slot,base.group_user,1,1,1,1
 access_car_lift,car_lift,model_car_lift,base.group_user,1,1,1,1
@@ -44,5 +43,4 @@ access_technician,technician,model_technician,car_repair_industry.group_technici
 access_checklist_points,checklist_points,model_checklist_points,base.group_user,1,1,1,1
 access_workorder_timer_line,workorder_timer_line,model_workorder_timer_line,base.group_user,1,1,1,1
 access_pause_reason_wizard,pause_reason_wizard,model_pause_reason_wizard,base.group_user,1,1,1,1
-access_price_list_line,price_list_line,model_price_list_line,,1,1,1,1
 

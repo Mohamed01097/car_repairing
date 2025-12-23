@@ -119,7 +119,7 @@ export class FleetRepairDasboard extends Component{
         ev.preventDefault();
         this.action.doAction({
             name: 'Price List',
-            res_model: 'price.list',
+            res_model: 'sale.order',
             res_id: false,
             views: [[false, 'list'],[false, 'form']],
             type: 'ir.actions.act_window',
