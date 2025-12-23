@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* car_repair_industry
+# 	* car_customization_industry
 #
 msgid ""
 msgstr ""
@@ -668,7 +668,7 @@ msgstr "Año de fabricación del automóvil"
 #: model_terms:ir.ui.view,arch_db:car_repair_industry.view_fleet_repair_form
 #: model_terms:ir.ui.view,arch_db:car_repair_industry.view_fleet_repair_tree
 #, python-format
-msgid "Car Repair"
+msgid "Car customization"
 msgstr "Reparación de autos"
 
 #. module: car_repair_industry

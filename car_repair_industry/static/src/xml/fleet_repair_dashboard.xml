@@ -23,7 +23,7 @@
                     <a class="CarRepairList">
                         <div class="activity_block">
                             <div class="activity_block_left nth1">
-                                <i class="fa fa-cogs"></i>
+                                <i class="fa fa-car"></i>
                             </div>
                             <div class="activity_block_right">
                                 <span class="a_name" t-esc="fleet_repair_count"/>
@@ -47,21 +47,7 @@
                 <!--                        </div>-->
                 <!--                    </a>-->
                 <!--                </div>-->
-                <div class="col-md-3" t-on-click="clickCarRepair">
-                    <a class="CarRepairList" data-activity_type="Fleet Repair Done"
-                       data-domain="[('state','=','done')]">
-                        <div class="activity_block">
-                            <div class="activity_block_left nth4">
-                                <i class="fa fa-check-circle"></i>
-                            </div>
-                            <div class="activity_block_right">
-                                <span class="a_name" t-esc="fleet_repair_d_count"/>
-                                <br/>
-                                <div class="a_name" data-activity_type="Fleet Repair Done">Done</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+
 
                 <!--                <h4 class="mt64 mb32 dashboard_data_h2 col-12">Other Details</h4>-->
                 <div class="col-md-3" t-on-click="clickWorkOrders">
@@ -78,6 +64,23 @@
                         </div>
                     </a>
                 </div>
+
+                <div class="col-md-3" t-on-click="clickCarRepair">
+                    <a class="CarRepairList" data-activity_type="Fleet Repair Done"
+                       data-domain="[('state','=','done')]">
+                        <div class="activity_block">
+                            <div class="activity_block_left nth4">
+                                <i class="fa fa-check-circle"></i>
+                            </div>
+                            <div class="activity_block_right">
+                                <span class="a_name" t-esc="fleet_repair_d_count"/>
+                                <br/>
+                                <div class="a_name" data-activity_type="Fleet Repair Done">Done</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
                 <div class="col-md-3" t-on-click="clickPriceList">
                     <a class="a_name PriceList">
                         <div class="activity_block">

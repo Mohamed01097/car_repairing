@@ -5,7 +5,11 @@ class PauseReasonWizard(models.TransientModel):
     _description = "Pause Reason Wizard"
 
     workorder_id = fields.Many2one('fleet.workorder', string="Work Order", required=True)
-    reason = fields.Text(string="Reason", required=True)
+    reason = fields.Selection([
+    ('lunch_break', 'Lunch Break'),
+    ('praying_break', 'Praying'),
+    ('restroom_break', 'Restroom Break'),
+    ], string="Reason", required=True, default='lunch_break')
 
     def action_confirm(self):
         """Save pause reason and update work order"""

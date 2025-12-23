@@ -298,7 +298,11 @@ class WorkorderTimerLine(models.Model):
     ], string="Action", required=True)
     action_time = fields.Datetime(string="Time", required=True)
     duration = fields.Float(string="Duration (Hours)")
-    reason = fields.Text(string="Reason")  # 🔹 السبب
+    reason = fields.Selection([
+    ('lunch_break', 'Lunch Break'),
+    ('praying_break', 'Praying'),
+    ('restroom_break', 'Restroom Break'),
+    ], string="Reason")  # 🔹 السبب
 
 class ChecklistPoints(models.Model):
     _name = 'checklist.points'
@@ -306,7 +310,9 @@ class ChecklistPoints(models.Model):
 
     name = fields.Char(string='Name')
     type_ids = fields.Many2many('fleet.repair.checklist')
-
+    _sql_constraints = [
+        ('unique_name', 'unique (name)', "This name is already exist")
+    ]
 class FleetRepairChecklist(models.Model):
     _name = 'fleet.repair.checklist.order'
     _description = "FLEET REPAIR Checklist"

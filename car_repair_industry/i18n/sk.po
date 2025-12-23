@@ -662,7 +662,7 @@ msgstr "Rok výroby auta"
 #: model_terms:ir.ui.view,arch_db:car_repair_industry.view_fleet_repair_form
 #: model_terms:ir.ui.view,arch_db:car_repair_industry.view_fleet_repair_tree
 #, python-format
-msgid "Car Repair"
+msgid "Car customization"
 msgstr "Oprava auta"
 
 #. module: car_repair_industry

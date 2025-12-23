@@ -10,8 +10,8 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
     diagnose_id = fields.Many2one('fleet.diagnose', string='Car Diagnosis', readonly=True)
-    fleet_repair_id  = fields.Many2one('fleet.repair',string='Car Repair')
-    workorder_id =  fields.Many2one('fleet.workorder', string='Repair Work Order', readonly=True)
+    fleet_repair_id  = fields.Many2one('fleet.repair',string='Car Customization')
+    workorder_id =  fields.Many2one('fleet.workorder', string='Customization Work Order', readonly=True)
     is_workorder_created = fields.Boolean(string = "Workorder Created")
     count_fleet_repair  = fields.Integer(string='Repair Orders', compute='_compute_repair_id')
     workorder_count = fields.Integer(string='Work Orders', compute='_compute_workorder_id')

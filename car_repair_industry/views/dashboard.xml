@@ -7,14 +7,6 @@
         <field name="tag">fleet_repair_dashboard</field>
     </record>
 
-    <record id="ir_actions_car_repair_dashboard" model="ir.actions.server">
-        <field name="name">Car Customization: Dashboard</field>
-        <field name="model_id" ref="car_repair_industry.model_fleet_repair" />
-        <field name="state">code</field>
-        <field name="type">ir.actions.server</field>
-        <field name="groups_id"  eval="[(4, ref('base.group_user'))]"/>
-        <field name="code">action = model.action_activity_dashboard_redirect()</field>
-    </record>
 
     <record id="action_fleet_repair_dashboard" model="ir.actions.act_url">
         <field name="name">Car Customization</field>
@@ -22,5 +14,7 @@
         <field name="target">self</field>
     </record>
 
-    <menuitem id="car_repair_dashboard_menu" name="Dashboard" active="0" parent="car_repair_industry.menu_main_car_repair"  sequence="1" />
+
+    <menuitem id="car_repair_dashboard_menu" name="Dashboard" active="0"
+              parent="car_repair_industry.menu_main_car_repair" sequence="1"/>
 </odoo>

@@ -64,7 +64,7 @@
                         <group>
                             <group>
                                 <field name="name" readonly="True"/>
-                                <field name="client_id" string="Client Name" readonly="True"/>
+                                <field name="client_id" string="Client Name" readonly="True" options="{'no_open': True}"/>
                                 <field name="sale_order_id" invisible="True"/>
                                 <field name="confirm_sale_order" invisible="True"/>
                             </group>
@@ -77,12 +77,12 @@
                         </group>
                         <group string="Task Assignment">
                             <group>
-                                <field name="responsible_person" readonly="1"/>
+                                <field name="responsible_person" readonly="1" options="{'no_open': True}"/>
                                 <field name="checklist_ids" widget="many2many_tags" readonly="1"/>
                             </group>
                             <group>
-                                <field name="parking_slot" readonly="1"/>
-                                <field name="car_lift" readonly="1"/>
+                                <field name="parking_slot" readonly="1" options="{'no_open': True}"/>
+                                <field name="car_lift" readonly="1" options="{'no_open': True}"/>
                             </group>
 
                         </group>

@@ -2,7 +2,7 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
 {
-    "name": "Car Repair and Automotive Service Maintenance Management Odoo App",
+    "name": "Car Customization and Automotive Service Maintenance Management Odoo App",
     "version": "18.0.0.0",
     "depends": ['base', 'sale', 'purchase', 'account', 'sale_stock', 'mail', 'product', 'stock', 'fleet','sale_management', 'website', 'calendar', 'hr_timesheet','web'],
     "author": "BROWSEINFO",

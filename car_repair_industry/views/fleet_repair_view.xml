@@ -21,13 +21,13 @@
 
                         <div class="oe_button_box" name="button_box">
 
-                                                       <button type="object"
-                                                                name="button_view_workorder"
-                                                                class="oe_stat_button"
-                                                                icon="fa-wrench"
-                                                                groups="base.group_user">
-                                                            <field name="workorder_count" widget="statinfo" string="Work Order"/>
-                                                        </button>
+                            <button type="object"
+                                    name="button_view_workorder"
+                                    class="oe_stat_button"
+                                    icon="fa-wrench"
+                                    groups="base.group_user">
+                                <field name="workorder_count" widget="statinfo" string="Work Order"/>
+                            </button>
 
 
                             <!--                            <button type="object"-->
@@ -94,7 +94,7 @@
                             </group>
                             <group>
                                 <field name="client_phone" readonly="state != 'draft'" required="1"
-                                       string="Phone No(1)"/>
+                                       string="Phone No"/>
                                 <field name="client_mobile" readonly="state != 'draft'" string="Mobile"/>
                                 <field name="client_email" widget="email" readonly="state != 'draft'"/>
                                 <!--										<field name="phone"/>-->
@@ -104,7 +104,8 @@
                         <group string="Task Assignment">
                             <group>
                                 <field name="responsible_person" required="1"/>
-                                <field name="checklist_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="checklist_ids" widget="many2many_tags"
+                                       options="{'no_create': True, 'no_open': True}"/>
                             </group>
                             <group>
                                 <field name="parking_slot" options="{'no_create': True, 'no_open': True}"/>
@@ -126,19 +127,19 @@
                             </list>
                         </field>
                         <notebook>
-<!--                            <page name="checklist" string="Checklist">-->
-<!--                                <group>-->
-<!--                                    <field name="repair_checklist_ids" options="{'no_create': True}" nolabel="1"-->
-<!--                                           colspan="2">-->
-<!--                                        <list editable="bottom">-->
-<!--                                            <field name="name"/>-->
-<!--                                            <field name="description"/>-->
-<!--                                            <field name="done"/>-->
-<!--                                        </list>-->
-<!--                                    </field>-->
-<!--                                </group>-->
-<!--                                <button name="select_all" string="Select All" type="object" class="oe_highlight"/>-->
-<!--                            </page>-->
+                            <!--                            <page name="checklist" string="Checklist">-->
+                            <!--                                <group>-->
+                            <!--                                    <field name="repair_checklist_ids" options="{'no_create': True}" nolabel="1"-->
+                            <!--                                           colspan="2">-->
+                            <!--                                        <list editable="bottom">-->
+                            <!--                                            <field name="name"/>-->
+                            <!--                                            <field name="description"/>-->
+                            <!--                                            <field name="done"/>-->
+                            <!--                                        </list>-->
+                            <!--                                    </field>-->
+                            <!--                                </group>-->
+                            <!--                                <button name="select_all" string="Select All" type="object" class="oe_highlight"/>-->
+                            <!--                            </page>-->
                             <!--                            <page name="review_and_rating" string="Review and Ratings">-->
                             <!--                                <group>-->
                             <!--                                    <field name="feedback_description"/>-->
@@ -193,7 +194,7 @@
                 <search string="Search Customization Order">
                     <field name="name"/>
                     <field name="client_phone"/>
-                      <field name="client_id" operator="child_of"/>
+                    <field name="client_id" operator="child_of"/>
                     <field name="license_plate"/>
                     <field name="sequence"/>
                     <field name="name" string="Customization Order"/>
@@ -214,9 +215,18 @@
             <field name="search_view_id" ref="view_repair_order_filter"/>
             <field name="view_id" ref="view_fleet_repair_tree"/>
         </record>
+        <record id="ir_actions_car_repair_dashboard" model="ir.actions.server">
+            <field name="name">Car Customization: Dashboard</field>
+            <field name="model_id" ref="car_repair_industry.model_fleet_repair"/>
+            <field name="state">code</field>
+            <field name="type">ir.actions.server</field>
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+            <field name="code">action = model.action_activity_dashboard_redirect()</field>
+        </record>
 
         <!--Menuitems-->
-        <menuitem id="menu_main_car_repair" name="Car Customization" sequence="50" action="car_repair_industry.ir_actions_car_repair_dashboard"/>
+        <menuitem id="menu_main_car_repair" name="Car Customization" sequence="50"
+                  action="car_repair_industry.ir_actions_car_repair_dashboard"/>
         <menuitem name="Orders" parent="menu_main_car_repair" id="menu_sub_car_repair" sequence="3"/>
 
         <menuitem name="Customization Orders" parent="menu_sub_car_repair" id="menu_fleet_repair_submenu" sequence="3"
@@ -279,7 +289,7 @@
                     <sheet string="Parking Slot">
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="name" required="1"/>
                             </group>
                             <group>
                                 <field name="description"/>
