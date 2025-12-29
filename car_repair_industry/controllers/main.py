@@ -123,23 +123,13 @@ class Appointment(http.Controller):
     @http.route('/fleet_repair/dashboard_data', type="json", auth='user')
     def fleet_repair_dashboard_data(self):
         fleet_repair = request.env['fleet.repair'].sudo().search([])
-        fleet_diagnose = request.env['fleet.diagnose'].sudo().search([])
-        fleet_diagnos_d = request.env['fleet.diagnose'].sudo().search([('state', '=', 'in_progress')])
-        fleet_repair_d = request.env['fleet.repair'].sudo().search([('state', '=', 'done')])
         fleet_workorder = request.env['fleet.workorder'].sudo().search([])
         finished_fleet_workorder = request.env['fleet.workorder'].sudo().search([('state', '=', 'done')])
-        fleet_service_type = request.env['service.type'].sudo().search([])
         fleet_price_list = request.env['sale.order'].sudo().search([])
-        fleet_deleted_order = request.env['fleet.workorder'].sudo().search([('state', '=', 'deleted')])
         dashboard_data = {
             'fleet_repair_count': len(fleet_repair),
-            'fleet_diagnos_count': len(fleet_diagnose),
-            'fleet_diagnos_d_count': len(fleet_diagnos_d),
-            'fleet_repair_d_count': len(fleet_repair_d),
             'fleet_workorder_count': len(fleet_workorder),
-            'fleet_repair_d_count': len(finished_fleet_workorder),
-            'fleet_service_type_count': len(fleet_service_type),
+            'fleet_workorder_done_count': len(finished_fleet_workorder),
             'fleet_price_list_count': len(fleet_price_list),
-            'fleet_deleted_order_count': len(fleet_deleted_order),
         }
         return dashboard_data

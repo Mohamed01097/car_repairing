@@ -26,9 +26,8 @@ export class FleetRepairDasboard extends Component{
                 self.fleet_repair_count = result.fleet_repair_count;
                 self.fleet_diagnos_count = result.fleet_diagnos_count;
                 self.fleet_diagnos_d_count = result.fleet_diagnos_d_count;
-                self.fleet_repair_d_count = result.fleet_repair_d_count;
+                self.fleet_workorder_done_count = result.fleet_workorder_done_count;
                 self.fleet_workorder_count = result.fleet_workorder_count;
-                self.fleet_service_type_count = result.fleet_service_type_count;
                 self.fleet_price_list_count = result.fleet_price_list_count;
             });
             return Promise.all([def]);
@@ -58,34 +57,7 @@ export class FleetRepairDasboard extends Component{
         });
     }
 
-//    clickAssignedtoTechnicians (ev) {
-//        ev.preventDefault();
-//        var targetElement = ev.currentTarget.querySelector('.AssignedtoTechnicians');
-//        var domain = targetElement.dataset.domain;
-//        this.action.doAction({
-//            name: 'Assigned to Technicians',
-//            res_model: 'fleet.diagnose',
-//            res_id: false,
-//            views: [[false, 'list'],[false, 'form']],
-//            type: 'ir.actions.act_window',
-//            domain: domain,
-//        }, {
-//            on_reverse_breadcrumb: this.on_reverse_breadcrumb
-//        });
-//    }
 
-    clickCarDiagnosis (ev) {
-        ev.preventDefault();
-        this.action.doAction({
-            name: 'Car Diagnosis',
-            res_model: 'fleet.diagnose',
-            res_id: false,
-            views: [[false, 'list'],[false, 'form']],
-            type: 'ir.actions.act_window',
-        }, {
-            on_reverse_breadcrumb: this.on_reverse_breadcrumb
-        });
-    }
 
     clickWorkOrders (ev) {
         ev.preventDefault();
@@ -102,19 +74,22 @@ export class FleetRepairDasboard extends Component{
             on_reverse_breadcrumb: this.on_reverse_breadcrumb
         });
     }
-    clickServiceType (ev) {
+      clickDoneWorkOrders (ev) {
         ev.preventDefault();
+        var targetElement = ev.currentTarget.querySelector('.DoneWorkOrders');
+        var domain = targetElement.dataset.domain;
         this.action.doAction({
-            name: 'Service Type',
-            res_model: 'service.type',
+            name: 'Work Orders',
+            res_model: 'fleet.workorder',
             res_id: false,
+            domain:domain,
             views: [[false, 'list'],[false, 'form']],
             type: 'ir.actions.act_window',
-        },
-        {
+        }, {
             on_reverse_breadcrumb: this.on_reverse_breadcrumb
         });
-      }
+    }
+
     clickPriceList (ev) {
         ev.preventDefault();
         this.action.doAction({
@@ -129,20 +104,7 @@ export class FleetRepairDasboard extends Component{
         });
     
     }
-    clickDeletedWorkOrders (ev) {
-        ev.preventDefault();
-        this.action.doAction({
-            name: 'Deleted Work Order',
-            res_model: 'fleet.workorder',
-            res_id: false,
-            views: [[false, 'list'],[false, 'form']],
-            type: 'ir.actions.act_window',
-        },
-        {
-            on_reverse_breadcrumb: this.on_reverse_breadcrumb
-        });
 
-    }
 
 }
 
