@@ -64,7 +64,8 @@
                         <group>
                             <group>
                                 <field name="name" readonly="True"/>
-                                <field name="client_id" string="Client Name" readonly="True" options="{'no_open': True}"/>
+                                <field name="client_id" string="Client Name" readonly="True"
+                                       options="{'no_open': True}"/>
                                 <field name="sale_order_id" invisible="True"/>
                                 <field name="confirm_sale_order" invisible="True"/>
                             </group>
@@ -87,7 +88,7 @@
 
                         </group>
                         <notebook>
-                            <page string="Information" >
+                            <page string="Information">
                                 <!--                                <group>-->
                                 <!--                                    <group string="Planned Date">-->
                                 <!--                                        <field name="date_planned"/>-->
@@ -121,8 +122,9 @@
                                 </field>
                             </page>
 
-<!--                            Add Invisible Attribute-->
-                            <page name="images_before" string="Before Installation Images" invisible="1" > Add Invisible Attribute
+                            <!--                            Add Invisible Attribute-->
+                            <page name="images_before" string="Before Installation Images" invisible="1">Add Invisible
+                                Attribute
                                 <field name="repair_image_line_ids">
                                     <list>
                                         <field name="b_image1" widget="image" class="oe_avatar oe_small"/>
@@ -157,8 +159,8 @@
                                     </form>
                                 </field>
                             </page>
-<!--                            Add Invisible Attribute-->
-                            <page name="images_after" string="After Installation Images" invisible="1" >
+                            <!--                            Add Invisible Attribute-->
+                            <page name="images_after" string="After Installation Images" invisible="1">
                                 <field name="repair_image_line_ids">
                                     <list>
                                         <field name="a_image1" widget="image" class="oe_avatar oe_small"/>
@@ -193,9 +195,9 @@
                                     </form>
                                 </field>
                             </page>
-                            <page name="work_permit" string="Work Permit" invisible="1" >
+                            <page name="work_permit" string="Work Permit" invisible="1">
                             </page>
-                            <page name="checklist" string="Checklist" >
+                            <page name="checklist" string="Checklist">
                                 <group>
                                     <field name="order_checklist_ids" options="{'no_create': True}" nolabel="1"
                                            colspan="2">
@@ -206,16 +208,17 @@
                                         </list>
                                     </field>
                                 </group>
-                                <button name="select_all" string="Select All" type="object" class="oe_highlight" invisible="1"/>
+                                <button name="select_all" string="Select All" type="object" class="oe_highlight"
+                                        invisible="1"/>
                             </page>
 
-                            <page name="comments" string="Comments" >
+                            <page name="comments" string="Comments">
                                 <group>
                                     <field name="notes"/>
                                 </group>
                             </page>
 
-                            <page string="Time Tracking" >
+                            <page string="Time Tracking">
                                 <field name="timer_line_ids" nolabel="1" readonly="1">
                                     <list editable="bottom">
                                         <field name="action"/>
@@ -224,6 +227,25 @@
                                         <!--                                        <field name="duration" widget="float_time"/>-->
                                     </list>
                                 </field>
+                            </page>
+                            <page string="Item Request">
+                                <field name="item_request_ids">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="image" widget="image" class="oe_avatar"/>
+                                        <field name="create_uid"/>
+                                        <field name="create_date"/>
+                                    </list>
+                                    <form>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="image" widget="capture_image" class="oe_avatar"
+                                                   options="{'preview_image':'image'}" required="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                                <button name="send_notification" string="Send Notification" type="object"
+                                        class="oe_highlight"/>
                             </page>
 
                             <!--                            <page string="Timesheet">-->

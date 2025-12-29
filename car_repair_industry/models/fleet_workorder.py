@@ -88,6 +88,7 @@ class FleetWorkOrder(models.Model):
         'workorder_id',
         string='Repair Images'
     )
+    item_request_ids = fields.One2many('item.request','request_id')
     order_checklist_ids = fields.One2many('fleet.repair.checklist.order', 'workorder_id', string='Repair Checklist')
     _order = 'id desc'
 
@@ -262,7 +263,45 @@ class FleetWorkOrder(models.Model):
             else:
                 rec.repair_checklist_ids = [(5, 0, 0)]
 
+    def send_notification(self):
+        """
+        Send top-bar notification to all users in specific group
+        """
+        group = self.env.ref(
+            'car_repair_industry.group_fleet_repair_directeur_commercial',
+            raise_if_not_found=False
+        )
 
+        if not group:
+            return
+
+        users = self.env['res.users'].search([
+            ('groups_id', 'in', group.id),
+            ('active', '=', True)
+        ])
+
+        for user in users:
+            self._send_top_notification(user)
+
+    def _send_top_notification(self, user):
+        """
+        Send top-bar notification (bell icon) to a specific user
+        """
+        if not user or not user.partner_id:
+            return
+
+        self.env['bus.bus']._sendone(
+            user.partner_id,
+            'simple_notification',
+            {
+                'title': _('Work Order'),
+                'message': _(
+                    'woek order # %s needs additional parts'
+                ) % self.name,
+                'sticky': True,
+                'warning': False,
+            }
+        )
 
 
 class FleetRepairImageLine(models.Model):
@@ -325,3 +364,10 @@ class FleetVehicleModel(models.Model):
     _inherit = 'fleet.vehicle.model'
 
     default_fuel_type = fields.Selection(default='gasoline')
+
+class ItemRequest(models.Model):
+    _name = 'item.request'
+
+    name = fields.Char()
+    image = fields.Binary()
+    request_id = fields.Many2one('fleet.workorder')

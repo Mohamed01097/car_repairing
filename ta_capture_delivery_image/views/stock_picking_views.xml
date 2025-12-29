@@ -51,7 +51,6 @@
         <field name="inherit_id" ref="car_repair_industry.view_fleet_workorder_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[2]" position="after">
-                <!--                Chang Page Name Only + Add New One-->
                 <page string="Before Installation">
                     <!--                    <field name="capture_ids" widget="one2many">-->
                     <!--                        <list create="false" edit="false" delete="true">-->
@@ -68,7 +67,7 @@
                             name="action_camera_capture_before"
                             type="object"
                             class="btn-primary mb-2"
-                            icon="fa-camera"/>
+                            icon="fa-camera" invisible="state != 'startworking'"/>
                     <field name="capture_ids" mode="kanban">
                         <kanban create="false">
                             <templates>
@@ -102,13 +101,13 @@
                     </field>
 
                 </page>
-                                <page string="After Installation">
+                <page string="After Installation">
                     <button
                             string="Capture"
                             name="action_camera_capture_after"
                             type="object"
                             class="btn-primary mb-2"
-                            icon="fa-camera"/>
+                            icon="fa-camera" invisible="state != 'startworking'"/>
                     <field name="after_capture_ids" mode="kanban">
                         <kanban create="false">
                             <templates>
@@ -141,14 +140,13 @@
                     </field>
 
                 </page>
-
                 <page name="work_permit" string="Work Permit">
                     <button
                             string="Capture"
                             name="action_camera_capture_permit"
                             type="object"
                             class="btn-primary mb-2"
-                            icon="fa-camera"/>
+                            icon="fa-camera" invisible="state != 'startworking'"/>
                     <field name="permit_capture_ids" mode="kanban">
                         <kanban create="false" editable="false">
                             <templates>

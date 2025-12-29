@@ -44,4 +44,4 @@ access_checklist_points,checklist_points,model_checklist_points,base.group_user,
 access_workorder_timer_line,workorder_timer_line,model_workorder_timer_line,base.group_user,1,1,1,1
 access_pause_reason_wizard,pause_reason_wizard,model_pause_reason_wizard,base.group_user,1,1,1,1
 access_pause_reason_user,pause.reason user,model_pause_reason,base.group_user,1,1,1,1
-
+access_item_request,item.request,model_item_request,base.group_user,1,1,1,1
