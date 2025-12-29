@@ -219,7 +219,7 @@
                                 <field name="timer_line_ids" nolabel="1" readonly="1">
                                     <list editable="bottom">
                                         <field name="action"/>
-                                        <field name="reason"/>
+                                        <field name="reason_id"/>
                                         <field name="action_time"/>
                                         <!--                                        <field name="duration" widget="float_time"/>-->
                                     </list>

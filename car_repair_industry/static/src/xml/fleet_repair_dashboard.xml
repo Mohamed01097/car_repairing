@@ -88,7 +88,7 @@
                                 <i class="fa fa-dollar"></i>
                             </div>
                             <div class="activity_block_right">
-                                <span class="a_name" t-esc="fleet_service_type_count"/>
+                                <span class="a_name" t-esc="fleet_price_list_count"/>
                                 <br/>
                                 <div class="a_name" data-activity_type="Price List">Price List</div>
                             </div>

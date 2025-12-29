@@ -298,11 +298,9 @@ class WorkorderTimerLine(models.Model):
     ], string="Action", required=True)
     action_time = fields.Datetime(string="Time", required=True)
     duration = fields.Float(string="Duration (Hours)")
-    reason = fields.Selection([
-    ('lunch_break', 'Lunch Break'),
-    ('praying_break', 'Praying'),
-    ('restroom_break', 'Restroom Break'),
-    ], string="Reason")  # 🔹 السبب
+    reason_id = fields.Many2one(
+    'pause.reason',
+    string='Reason')
 
 class ChecklistPoints(models.Model):
     _name = 'checklist.points'

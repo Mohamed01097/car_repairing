@@ -43,5 +43,19 @@
 <!--                  parent="car_repair_industry.menu_configuration"-->
 <!--                  />-->
 
+        <record id="action_pause_reason" model="ir.actions.act_window">
+            <field name="name">Pause Reasons</field>
+            <field name="res_model">pause.reason</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem
+            id="menu_pause_reason"
+            name="Pause Reasons"
+            parent="menu_configuration"
+            action="action_pause_reason"
+        />
+
+
     </data>
 </odoo>

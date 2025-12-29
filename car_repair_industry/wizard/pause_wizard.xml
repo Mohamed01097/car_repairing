@@ -7,7 +7,8 @@
             <form string="Pause Reason">
                 <group>
                     <field name="workorder_id" invisible="1"/>
-                    <field name="reason" widget="selection"/>
+                    <field name="reason_id" placeholder="Select reason"
+                    options="{'no_create': True, 'no_create_edit': True}"/>
                 </group>
                 <footer>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
